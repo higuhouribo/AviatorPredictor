@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Aviator Predictor | Signals</title>
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+  <div class="page page2">
+    <header>
+      <div class="title-text">AVIATOR PREDICTOR 1.0</div>
+    </header>
+    <main>
+      <form class="input-group" id="access-form" autocomplete="off">
+        <label class="input-label" for="access-inp">Enter AccessID:</label>
+        <input class="access-input" id="access-inp" type="text" maxlength="20" spellcheck="false" required>
+        <button type="submit" class="submit-btn">LOGIN</button>
+        <div id="error-msg" class="error-msg"></div>
+      </form>
+      <div class="site-list" id="site-select" style="display:none;">
+        <div class="site-label">Choose your gambling site:</div>
+        <button class="site-btn" data-site="Hollywoods">Hollywoods</button>
+        <button class="site-btn" data-site="Betway">Betway</button>
+        <button class="site-btn" data-site="SuperBet">SuperBet</button>
+        <button class="site-btn" data-site="TopBet">TopBet</button>
+      </div>
+      <div class="signals-area" id="signals-area" style="display:none;">
+        <div class="datetime" id="datetime"></div>
+        <div class="jet-logo">🛩️</div>
+        <div class="signal-circle" id="signal-box">-</div>
+        <div class="prediction-alert" id="prediction-alert"></div>
+        <div class="server-status">Server Connected - PMT services</div>
+        <button class="get-signal-btn" id="get-signal-btn">GET NEXT SIGNAL</button>
+        <div class="switch-row">
+          <span class="switch-label">Signals</span>
+          <label class="switch">
+            <input type="checkbox" id="toggle-switch" checked>
+            <span class="slider"></span>
+          </label>
+          <span class="switch-label" style="font-size:0.93em;" id="switch-status">On</span>
+        </div>
+        <button class="big-btn" style="margin-top:24px;" onclick="window.location.href='owner.html'">OWNER INFO ➔</button>
+      </div>
+    </main>
+    <footer>
+      <div class="footer">Coding by PMT</div>
+    </footer>
+  </div>
+  <script src="quotes.js"></script>
+  <script>
+    // Hardcoded Access IDs
+    const validIDs = ["PMT-IFU-HD6", "PMT-853-09", "PMT-456-KFD"];
+    let signalsEnabled = true;
+    let streakType = 'random'; // could be 'low', 'mid', 'high'
+    let streakCount = 0;
+    let lastSignals = [];
+    function weightedRandomSignal() {
+      // Weighted ranges for signals: low (1–2x), mid (2–10x), high (10–50x+)
+      const ranges = [
+        {min: 1.01, max: 1.99, weight: 45},  // low
+        {min: 2.0, max: 4.99, weight: 30},   // mid-low
+        {min: 5.0, max: 9.99, weight: 15},   // mid-high
+        {min: 10.0, max: 29.99, weight: 8},  // high
+        {min: 30.0, max: 80.0, weight: 2}    // ultra-rare
+      ];
+      // Change streak type every 5-8 signals
+      if (streakCount <= 0) {
+        const types = ['low', 'mid', 'high'];
+        streakType = types[Math.floor(Math.random()*types.length)];
+        streakCount = 4 + Math.floor(Math.random()*5);
+      }
+      streakCount--;
+      // Adjust weight table for "streaks"
+      let customRanges = JSON.parse(JSON.stringify(ranges));
+      if (streakType === 'low') {
+        customRanges[0].weight += 30;
+      } else if (streakType === 'mid') {
+        customRanges[1].weight += 20; customRanges[2].weight += 10;
+      } else if (streakType === 'high') {
+        customRanges[3].weight += 20; customRanges[4].weight += 10;
+      }
+      let total = customRanges.reduce((sum, r) => sum + r.weight, 0);
+      let pick = Math.random() * total;
+      for (let r of customRanges) {
+        if (pick < r.weight) {
+          let value = (Math.random() * (r.max - r.min) + r.min);
+          value = Math.round(value * 100) / 100;
+          if (lastSignals.includes(value) || lastSignals.includes(value.toFixed(2))) {
+            return weightedRandomSignal();
+          }
+          lastSignals.push(value);
+          if (lastSignals.length > 10) lastSignals.shift();
+          return value.toFixed(2) + 'x';
+        }
+        pick -= r.weight;
+      }
+      return '1.01x';
+    }
+    function maybeShowAlert(signal) {
+      const alertBox = document.getElementById('prediction-alert');
+      alertBox.style.display = "none";
+      let x = parseFloat(signal);
+      if (x > 25) {
+        alertBox.textContent = "⚠️ High Volatility! Next rounds likely low!";
+        alertBox.style.display = "block";
+      } else if (x < 1.3 && Math.random() < 0.4) {
+        alertBox.textContent = "📈 Spike Expected Soon!";
+        alertBox.style.display = "block";
+      } else if (x > 9 && Math.random() < 0.2) {
+        alertBox.textContent = "🔥 Hot streak! Watch for a drop!";
+        alertBox.style.display = "block";
+      }
+    }
+    function getDateTimeStr() {
+      const now = new Date();
+      return now.toLocaleString('en-GB', {
+        year: 'numeric', month: '2-digit', day: '2-digit',
+        hour: '2-digit', minute: '2-digit', second: '2-digit'
+      }).replace(',', '');
+    }
+    function updateDateTime() {
+      document.getElementById('datetime').textContent = getDateTimeStr();
+    }
+    setInterval(() => {
+      if (document.getElementById('datetime')) updateDateTime();
+    }, 1000);
+
+    // Form logic
+    document.getElementById('access-form').onsubmit = function(e) {
+      e.preventDefault();
+      const val = document.getElementById('access-inp').value.trim();
+      if (validIDs.includes(val)) {
+        document.getElementById('access-form').style.display = "none";
+        document.getElementById('site-select').style.display = "flex";
+      } else {
+        document.getElementById('error-msg').textContent = "Invalid AccessID. Please try again.";
+      }
+    };
+
+    Array.from(document.getElementsByClassName('site-btn')).forEach(btn => {
+      btn.onclick = function() {
+        document.getElementById('site-select').style.display = "none";
+        document.getElementById('signals-area').style.display = "flex";
+        updateDateTime();
+        let sig = weightedRandomSignal();
+        document.getElementById('signal-box').textContent = sig;
+        maybeShowAlert(sig);
+      };
+    });
+
+    document.getElementById('get-signal-btn').onclick = function() {
+      if (signalsEnabled) {
+        let sig = weightedRandomSignal();
+        document.getElementById('signal-box').textContent = sig;
+        maybeShowAlert(sig);
+      }
+    };
+
+    document.getElementById('toggle-switch').onchange = function() {
+      signalsEnabled = this.checked;
+      document.getElementById('switch-status').textContent = signalsEnabled ? 'On' : 'Off';
+      document.getElementById('get-signal-btn').disabled = !signalsEnabled;
+      document.getElementById('signal-box').style.opacity = signalsEnabled ? '1' : '0.45';
+      document.getElementById('prediction-alert').style.display = "none";
+    };
+  </script>
+</body>
+</html>
