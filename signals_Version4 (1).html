@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Aviator Predictor | Signals</title>
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+  <div class="signal-bg">
+    <main class="signal-main-card">
+      <div class="profile-section">
+        <div class="profile-circle">M</div>
+      </div>
+      <div class="signal-title">Aviator</div>
+      <div class="signal-subtitle">TURBO PREDICTOR PMT & LIL JEE-FX</div>
+      <div class="signal-value" id="signal-box">-</div>
+      <div class="powered-by">POWERED BY AVIATOR EXPERT</div>
+      <div class="username-bar">PMT_LILJEEFX</div>
+      <div class="action-row">
+        <button class="action-btn" id="predict-btn">PREDICT</button>
+        <button class="action-btn" id="platform-btn">PLATFORM</button>
+        <button class="action-btn" id="delete-btn">DELETE</button>
+      </div>
+      <button class="license-btn" id="license-btn">🔑 NEW LICENSE KEY</button>
+      <div class="aviator-list-section">
+        <div class="aviator-list-title">AVIATOR LISTS:</div>
+        <div class="aviator-list-card">
+          <div class="aviator-badge">TURBO PREDICTOR PMT & LIL JEE-FX</div>
+        </div>
+        <div class="signal-stats-row">
+          <div class="stat-block">Accuracy<br><span id="accuracy-val">100%</span></div>
+          <div class="stat-block">Winning Rate<br><span id="winrate-val">47%</span></div>
+        </div>
+      </div>
+      <button class="profile-btn" id="profile-btn">PROFILE ACCOUNT</button>
+      <div class="server-status">Server Connected - PMT & LIL JEE-FX</div>
+      <button class="big-btn" style="margin-top:20px;" onclick="window.location.href='owner.html'">OWNER INFO ➔</button>
+    </main>
+    <footer>
+      <div class="footer">Coding by PMT</div>
+    </footer>
+    <!-- Modal for License Key (hidden by default) -->
+    <div id="license-modal" class="modal-bg" style="display:none;">
+      <div class="modal-card">
+        <h2>New License Key</h2>
+        <p>Your license key request will be handled soon.<br>
+        For support, contact: <b>pmtservices123@gmail.com</b></p>
+        <button id="close-modal-btn" class="modal-close-btn">Close</button>
+      </div>
+    </div>
+  </div>
+  <script src="quotes.js"></script>
+  <script>
+    // Signal logic
+    let streakType = 'random';
+    let streakCount = 0;
+    let lastSignals = [];
+    function weightedRandomSignal() {
+      const ranges = [
+        {min: 1.01, max: 1.99, weight: 45},
+        {min: 2.0, max: 4.99, weight: 30},
+        {min: 5.0, max: 9.99, weight: 15},
+        {min: 10.0, max: 29.99, weight: 8},
+        {min: 30.0, max: 80.0, weight: 2}
+      ];
+      if (streakCount <= 0) {
+        const types = ['low', 'mid', 'high'];
+        streakType = types[Math.floor(Math.random()*types.length)];
+        streakCount = 4 + Math.floor(Math.random()*5);
+      }
+      streakCount--;
+      let customRanges = JSON.parse(JSON.stringify(ranges));
+      if (streakType === 'low') {
+        customRanges[0].weight += 30;
+      } else if (streakType === 'mid') {
+        customRanges[1].weight += 20; customRanges[2].weight += 10;
+      } else if (streakType === 'high') {
+        customRanges[3].weight += 20; customRanges[4].weight += 10;
+      }
+      let total = customRanges.reduce((sum, r) => sum + r.weight, 0);
+      let pick = Math.random() * total;
+      for (let r of customRanges) {
+        if (pick < r.weight) {
+          let value = (Math.random() * (r.max - r.min) + r.min);
+          value = Math.round(value * 100) / 100;
+          if (lastSignals.includes(value) || lastSignals.includes(value.toFixed(2))) {
+            return weightedRandomSignal();
+          }
+          lastSignals.push(value);
+          if (lastSignals.length > 10) lastSignals.shift();
+          return value.toFixed(2) + 'x';
+        }
+        pick -= r.weight;
+      }
+      return '1.01x';
+    }
+    function updateSignal() {
+      let sig = weightedRandomSignal();
+      document.getElementById('signal-box').textContent = sig;
+    }
+    document.getElementById('predict-btn').onclick = updateSignal;
+    document.getElementById('delete-btn').onclick = function(){
+      document.getElementById('signal-box').textContent = "-";
+    };
+    document.getElementById('platform-btn').onclick = function(){
+      window.location.href='index.html';
+    };
+    document.getElementById('profile-btn').onclick = function(){
+      window.location.href='owner.html';
+    };
+    document.getElementById('license-btn').onclick = function(){
+      document.getElementById('license-modal').style.display = 'flex';
+    };
+    document.getElementById('close-modal-btn').onclick = function(){
+      document.getElementById('license-modal').style.display = 'none';
+    };
+    // On load, show first signal
+    updateSignal();
+  </script>
+</body>
+</html>
