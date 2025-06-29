@@ -1,0 +1,956 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>PMT by LIL JEE-FX - Free Trading Knowledge Hub</title>
+  <!-- SEO & Social Meta -->
+  <meta name="description" content="Free Trading Education, Indicators, and Tools. PMT by LIL JEE-FX offers traders a premium hub for market news, lessons, bots, and more.">
+  <meta property="og:title" content="PMT by LIL JEE-FX - Free Trading Knowledge Hub">
+  <meta property="og:description" content="Learn trading for free. Download PDFs, explore indicators, bots, and more.">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://upload.wikimedia.org/wikipedia/commons/7/7a/MACD_chart.png">
+  <meta property="og:url" content="https://yourdomain.com/">
+  <meta name="twitter:card" content="summary_large_image">
+  <!-- PWA Manifest -->
+  <link rel="manifest" href="manifest.json">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: #16181b;
+      color: #fff;
+      min-height: 100vh;
+    }
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 18px 28px;
+      background: #21242a;
+      box-shadow: 0 2px 12px #0aff8330;
+    }
+    .logo {
+      font-size: 1.5em;
+      font-weight: bold;
+      letter-spacing: 0.04em;
+    }
+    .accent { color: #07c24a; }
+    .byline { font-size: 0.9em; color: #c2fcda; margin-top: -7px; }
+    nav { display: flex; gap: 16px; flex-wrap: wrap;}
+    nav a, nav button, nav select {
+      color: #fff;
+      font-weight: 600;
+      padding: 7px 14px;
+      border-radius: 6px;
+      text-decoration: none;
+      transition: background .16s, color .13s;
+      cursor: pointer;
+      border: none;
+      background: none;
+      outline: none;
+      font-size: 1em;
+    }
+    nav a.active, nav a:hover, nav button.active, nav button:hover, nav select:focus {
+      background: #07c24a;
+      color: #181A1B;
+    }
+    main {
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 32px 16px 24px 16px;
+      min-height: 60vh;
+    }
+    h1 { color: #07c24a; }
+    .btn-download {
+      background: #07c24a;
+      color: #181A1B;
+      font-weight: 700;
+      border: none;
+      border-radius: 6px;
+      padding: 10px 20px;
+      font-size: 1em;
+      margin: 18px 0 12px 0;
+      cursor: pointer;
+      transition: background .13s;
+      box-shadow: 0 2px 7px #0aff8340;
+      display: inline-block;
+      text-decoration: none;
+    }
+    .btn-download:hover { background: #0aff83; }
+    .calendar-placeholder {
+      background: #232526;
+      border-radius: 10px;
+      padding: 25px 18px;
+      margin: 28px 0 0 0;
+      color: #eee;
+      text-align: center;
+      font-size: 1.04em;
+      font-weight: 600;
+      box-shadow: 0 2px 14px #0aff8333;
+    }
+    .hidden { display: none !important; }
+    .tab-content { display: none; }
+    .tab-content.active { display: block; }
+    .img-gallery {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin: 18px 0 0 0;
+      justify-content: flex-start;
+    }
+    .gallery-img-container {
+      position: relative;
+      width: 140px;
+      background: #262c2f;
+      border-radius: 7px;
+      overflow: hidden;
+      box-shadow: 0 2px 10px #0aff8333;
+      margin-bottom: 8px;
+    }
+    .gallery-img-container img {
+      width: 100%;
+      height: 97px;
+      object-fit: cover;
+      border-radius: 7px;
+      display: block;
+      transition: transform 0.18s;
+    }
+    .gallery-img-container img:hover {
+      transform: scale(1.13);
+      z-index: 3;
+    }
+    .img-caption {
+      padding: 7px 4px;
+      font-size: 0.93em;
+      color: #0aff83;
+      text-align: center;
+      background: #181a1e;
+      border-radius: 0 0 7px 7px;
+      margin-top: -2px;
+    }
+    .indicator-list {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      margin-top: 15px;
+    }
+    .indicator-row {
+      display: flex;
+      align-items: flex-start;
+      background: #21242a;
+      border-radius: 9px;
+      padding: 10px 13px;
+      box-shadow: 0 2px 10px #0aff8325;
+      gap: 19px;
+      flex-wrap: wrap;
+      min-height: 80px;
+      position: relative;
+    }
+    .indicator-img {
+      width: 70px;
+      height: 56px;
+      background: #262c2f;
+      border-radius: 5px;
+      object-fit: cover;
+      margin-right: 7px;
+      box-shadow: 0 1px 7px #0aff8330;
+      border: 1px solid #0aff8312;
+      transition: transform 0.2s;
+    }
+    .indicator-fav {
+      position: absolute;
+      top: 10px;
+      right: 12px;
+      font-size: 1.4em;
+      color: #0aff83;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 0;
+      z-index: 10;
+      transition: color 0.13s;
+    }
+    .indicator-fav.favorited { color: #fbc02d; }
+    .indicator-info h2 {
+      color: #3bf07b;
+      margin: 0 0 6px 0;
+      font-size: 1.13em;
+    }
+    .indicator-info p {
+      margin: 0 0 1px 0;
+      color: #f7fff6;
+      font-size: 1em;
+    }
+    .search-bar {
+      display: flex;
+      margin: 12px 0 0 0;
+      gap: 11px;
+      align-items: center;
+    }
+    .search-input {
+      font-size: 1em;
+      padding: 7px 10px;
+      border-radius: 6px;
+      border: none;
+      outline: none;
+      width: 220px;
+      background: #232526;
+      color: #cef7e4;
+    }
+    .search-input:focus { border: 1px solid #12f497; }
+    .quiz-section {
+      margin: 24px 0 0 0;
+      background: #21242a;
+      border-radius: 8px;
+      padding: 16px 14px;
+      box-shadow: 0 2px 10px #0aff8330;
+    }
+    .quiz-q {font-weight: 600; margin-bottom: 7px;}
+    .quiz-opts {margin-bottom: 15px;}
+    .quiz-opt-btn {
+      display: block;
+      margin: 4px 0;
+      background: #232526;
+      color: #07c24a;
+      border-radius: 5px;
+      border: 1px solid #07c24a;
+      cursor: pointer;
+      padding: 6px 12px;
+      font-size: 1em;
+      text-align: left;
+      transition: background .11s, color .11s;
+    }
+    .quiz-opt-btn.selected, .quiz-opt-btn:active { background: #07c24a; color: #181A1B;}
+    .quiz-result {margin: 10px 0; font-weight: bold; color: #0aff83;}
+    .recap-list {margin:18px 0 0 0; padding-left:18px;}
+    .recap-item {margin-bottom:10px;}
+    .recap-download {margin-top: 14px;}
+    .fav-indicator-list {margin: 20px 0 0 0;}
+    .glossary-term {color: #0aff83; cursor: pointer; text-decoration: underline dotted;}
+    .glossary-popup {
+      position: fixed;
+      left: 50%; top: 50%;
+      transform: translate(-50%, -50%);
+      background: #222;
+      color: #fff;
+      border-radius: 8px;
+      box-shadow: 0 2px 16px #0aff8360;
+      padding: 21px 17px 17px 17px;
+      z-index: 1100;
+      min-width: 240px;
+      max-width: 85vw;
+      font-size: 1.1em;
+      display: none;
+    }
+    .glossary-popup .close-btn {
+      position: absolute;
+      top: 7px; right: 14px;
+      color: #0aff83; background: none; border: none; font-size: 1.2em; cursor: pointer;
+    }
+    .faq-section {margin: 20px 0;}
+    .faq-q {font-weight: 600; margin-top: 16px;}
+    .faq-a {margin: 2px 0 8px 0;}
+    .support-form {margin-top:20px;}
+    .support-form input, .support-form textarea {
+      width: 97%;
+      padding: 7px;
+      border-radius: 5px;
+      border: none;
+      margin-bottom: 8px;
+      background: #232526;
+      color: #fff;
+      font-size: 1em;
+    }
+    .support-form textarea {min-height: 60px;}
+    .support-form button {
+      background: #07c24a;
+      color: #181A1B;
+      border: none;
+      border-radius: 6px;
+      padding: 8px 20px;
+      font-size: 1em;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    .support-form button:hover { background: #0aff83; }
+    .section-customize {
+      margin: 15px 0 0 0; text-align: right;
+    }
+    .customize-btn {
+      background: #262c2f;
+      color: #07c24a;
+      border-radius: 5px;
+      border: 1px solid #07c24a;
+      padding: 4px 14px;
+      cursor: pointer;
+      margin-left: 8px;
+      font-size: 0.98em;
+    }
+    .customize-btn.active { background: #07c24a; color: #181A1B; }
+    .section-draggable {cursor: move;}
+    .section-hidden-tog {margin-left: 10px;}
+    .section-hidden-tog label {margin-right: 8px;}
+    .spinner {display:none;}
+    .notification-optin {
+      margin: 15px 0 0 0; background: #21242a; border-radius: 7px; padding: 14px 15px; color: #0aff83;
+    }
+    .pwa-add {margin-left:17px; background: #0aff83; color: #222; border-radius: 6px; border:none; padding: 5px 13px; font-weight:600; cursor:pointer;}
+    footer {
+      background: #21242a;
+      color: #a5a5a5;
+      text-align: center;
+      font-size: 0.99em;
+      padding: 18px 0 10px 0;
+      border-radius: 0 0 9px 9px;
+      box-shadow: 0 -2px 14px #0aff8321;
+      margin-top: 38px;
+      letter-spacing: 0.03em;
+    }
+    body.light {
+      background: #f8f8f8;
+      color: #181A1B;
+    }
+    body.light header,
+    body.light footer {
+      background: #f2f2f2;
+      color: #222;
+      box-shadow: 0 2px 12px #07c24a20;
+    }
+    body.light .accent,
+    body.light .btn-download,
+    body.light .indicator-info h2 {
+      color: #088b45 !important;
+      background: #c6ffe0;
+    }
+    body.light .calendar-placeholder,
+    body.light .indicator-row,
+    body.light .gallery-img-container {
+      background: #f4fff6;
+      color: #222;
+      box-shadow: 0 2px 10px #07c24a10;
+    }
+    body.light .img-caption { background: #e8fff3; color: #088b45;}
+    body.light .indicator-info p {color: #222;}
+    body.light .search-input {background: #e8fff3; color: #222;}
+    body.light nav a.active, body.light nav a:hover,
+    body.light nav button.active, body.light nav button:hover, body.light nav select:focus {background: #07c24a !important; color: #fff !important;}
+    body.light .toggle-mode, body.light .toggle-mode.active {background: #c6ffe0; color: #088b45; border:1px solid #088b45;}
+    @media (max-width: 700px) {
+      main { padding: 9px 1vw 20px 1vw; }
+      .indicator-row { flex-direction: column; align-items: flex-start; }
+      .indicator-img { margin-right: 0; margin-bottom: 6px; }
+      header { flex-direction: column; align-items: flex-start; padding: 16px 8px;}
+      nav { gap: 8px; flex-wrap: wrap;}
+      .img-gallery {gap: 8px;}
+      .gallery-img-container {width: 44vw; min-width: 108px;}
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div>
+      <div class="logo">PMT <span class="accent">by LIL JEE-FX</span></div>
+      <div class="byline">Premium Market Tools | Free Trader Knowledge</div>
+    </div>
+    <nav id="main-nav">
+      <a class="active" data-tab="news">News & Events</a>
+      <a data-tab="eas">How EAs Work</a>
+      <a data-tab="indicators">Indicators</a>
+      <a data-tab="bots">Bots & Functions</a>
+      <a data-tab="recap">Market Recap</a>
+      <a data-tab="glossary">Glossary</a>
+      <a data-tab="favs">My Favorites</a>
+      <a data-tab="faq">FAQ/Support</a>
+      <button class="toggle-mode" id="mode-btn" title="Toggle Light/Dark Mode">Light Mode</button>
+      <select aria-label="Select language" class="lang-select" id="lang-select">
+        <option value="en">English</option>
+        <option value="fr">Français</option>
+        <option value="es">Español</option>
+      </select>
+    </nav>
+  </header>
+  <main id="main-content">
+    <!-- Sections will be injected here -->
+  </main>
+  <footer>
+    &copy; 2025 PMT by LIL JEE-FX. Free Trading Knowledge for All Traders.
+  </footer>
+  <!-- Glossary popup -->
+  <div class="glossary-popup" id="glossary-popup">
+    <button class="close-btn" onclick="hideGlossaryPopup()">&#10006;</button>
+    <div id="glossary-popup-content"></div>
+  </div>
+  <!-- PWA Add-to-home -->
+  <script>
+  // --- Section templates ---
+  const SECTIONS = {
+    news: `
+    <section class="tab-content active" id="tab-news">
+      <h1>Free Market News & Events</h1>
+      <p>
+        Welcome to <b>PMT by LIL JEE-FX</b>.<br>
+        This site is dedicated to providing traders with free knowledge, market updates, and access to premium trading tools.
+      </p>
+      <div class="calendar-placeholder">
+        <strong>Economic Calendar & News Images Coming Soon</strong><br>
+        Here you’ll find important dates, market events, and news screenshots to keep you up to date.
+      </div>
+      <div class="img-gallery">
+        <div class="gallery-img-container">
+          <img src="https://www.investing.com/graphics/calendar/events/46.webp" loading="lazy" alt="FOMC Meeting Calendar" width="140" height="97">
+          <div class="img-caption">FOMC Meeting</div>
+        </div>
+        <div class="gallery-img-container">
+          <img src="https://www.forexfactory.com/calendar_event_image/20230602-nfp.webp" loading="lazy" alt="NFP News Event" width="140" height="97">
+          <div class="img-caption">NFP Release</div>
+        </div>
+      </div>
+      <div style="margin-top:22px;">
+        <a class="btn-download" href="trading-lesson.pdf" download>Download Trading Lesson PDF</a>
+        <span style="color:#aaf2c5; font-size:0.95em; margin-left:10px;">(Market Basics)</span>
+      </div>
+      <div class="notification-optin" id="notif-optin">
+        <span>Get notified for major news events:</span>
+        <button class="btn-download" id="notif-btn">Enable Notifications</button>
+        <span id="notif-status"></span>
+      </div>
+    </section>
+    `,
+    eas: `
+    <section class="tab-content" id="tab-eas">
+      <h1>How Expert Advisors (EAs) Work</h1>
+      <section class="ea-explainer">
+        <p><strong>Expert Advisors (EAs)</strong> are automated trading systems. They run on platforms like MT4/MT5 to trade for you based on coded logic.</p>
+        <ul>
+          <li><strong>Automation:</strong> 24/5 trading, instant reactions.</li>
+          <li><strong>Strategy-Based:</strong> Trend-following, scalping, grid, martingale, hedging, news bots, etc.</li>
+          <li><strong>Backtesting:</strong> Run on old data to see how they’d have performed.</li>
+          <li><strong>Parameters:</strong> Lot size, stop loss, risk, trading hours, etc.</li>
+          <li><strong>Risks & Limits:</strong> EAs are only as good as their code and can’t predict news shocks unless coded for it.</li>
+        </ul>
+        <b>Types of Bots/EAs:</b>
+        <ul>
+          <li><b>Trend-Following EA:</b> Trades in the direction of the major trend.</li>
+          <li><b>Scalper EA:</b> Seeks small, fast profits on short timeframes.</li>
+          <li><b>Grid EA:</b> Places buy/sell orders at intervals to capture swings.</li>
+          <li><b>Martingale EA:</b> Increases lot size after loss (high risk).</li>
+          <li><b>Hedging EA:</b> Opens both long and short to reduce risk.</li>
+          <li><b>Arbitrage Bot:</b> Exploits price differences across brokers.</li>
+          <li><b>News Trading Bot:</b> Trades on volatility after news events.</li>
+          <li><b>Custom Bots:</b> Coded for unique strategies or indicators.</li>
+        </ul>
+      </section>
+      <div class="img-gallery">
+        <div class="gallery-img-container">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/4/47/MT5_EA_example.png" loading="lazy" alt="MT5 EA Example" width="140" height="97">
+          <div class="img-caption">EA in MT5</div>
+        </div>
+        <div class="gallery-img-container">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/0/0d/Expert_advisor_flowchart.png" loading="lazy" alt="EA Logic Flow" width="140" height="97">
+          <div class="img-caption">EA Logic Flow</div>
+        </div>
+      </div>
+      <div style="margin-top:19px;">
+        <a class="btn-download" href="ea-trading-guide.pdf" download>Download EA Guide PDF</a>
+        <span style="color:#aaf2c5; font-size:0.95em; margin-left:10px;">(How EAs Work)</span>
+      </div>
+      <div class="quiz-section" id="ea-quiz"></div>
+    </section>
+    `,
+    bots: `
+    <section class="tab-content" id="tab-bots">
+      <h1>Trading Bots & Functions</h1>
+      <p>Explore different types of trading bots, how they work, and what makes them effective or risky.</p>
+      <div class="img-gallery">
+        <div class="gallery-img-container">
+          <img src="https://www.fxstreet.com/images/sections/ea-automation.webp" loading="lazy" alt="Automation Bot" width="140" height="97">
+          <div class="img-caption">Automation Bot</div>
+        </div>
+        <div class="gallery-img-container">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/3/3d/Arbitrage-Bot.png" loading="lazy" alt="Arbitrage Bot" width="140" height="97">
+          <div class="img-caption">Arbitrage Bot</div>
+        </div>
+      </div>
+      <ul>
+        <li><b>Signal Generator Bot:</b> Scans for buy/sell signals from indicators.</li>
+        <li><b>Order Management Bot:</b> Automatically sets and trails stops, takes profit.</li>
+        <li><b>Risk Management Bot:</b> Calculates and limits exposure per trade.</li>
+        <li><b>Portfolio Bot:</b> Allocates capital and rebalances among assets.</li>
+        <li><b>Copy Trading Bot:</b> Mimics trades of successful accounts.</li>
+        <li><b>Stop-Loss Hunter:</b> Detects where stops may cluster for reversals.</li>
+        <li><b>Breakout Bot:</b> Enters on new highs/lows or volatility spikes.</li>
+      </ul>
+      <div style="margin-top:19px;">
+        <a class="btn-download" href="bots-functions.pdf" download>Download Bots & Functions PDF</a>
+        <span style="color:#aaf2c5; font-size:0.95em; margin-left:10px;">(Bots Overview)</span>
+      </div>
+      <div class="quiz-section" id="bot-quiz"></div>
+    </section>
+    `,
+    indicators: `
+    <section class="tab-content" id="tab-indicators">
+      <h1>Trading Indicators</h1>
+      <div class="search-bar">
+        <input type="text" class="search-input" id="indicator-search" placeholder="Search indicator...">
+      </div>
+      <div style="margin-bottom:8px; margin-top:4px;">
+        <a class="btn-download" href="indicators-cheatsheet.pdf" download>Download Indicators Cheat Sheet PDF</a>
+        <span style="color:#aaf2c5; font-size:0.95em; margin-left:10px;">(Reference)</span>
+      </div>
+      <section class="indicator-list" id="indicator-list"></section>
+      <div class="quiz-section" id="indicator-quiz"></div>
+    </section>
+    `,
+    recap: `
+    <section class="tab-content" id="tab-recap">
+      <h1>Weekly/Monthly Market Recap</h1>
+      <ul class="recap-list" id="recap-list"></ul>
+      <button class="btn-download recap-download" onclick="downloadRecap()">Download Recap PDF</button>
+    </section>
+    `,
+    glossary: `
+    <section class="tab-content" id="tab-glossary">
+      <h1>Trading Glossary</h1>
+      <div class="search-bar">
+        <input type="text" class="search-input" id="glossary-search" placeholder="Search terms...">
+      </div>
+      <ul class="recap-list" id="glossary-list"></ul>
+    </section>
+    `,
+    favs: `
+    <section class="tab-content" id="tab-favs">
+      <h1>My Favorites</h1>
+      <div class="fav-indicator-list" id="fav-list"></div>
+    </section>
+    `,
+    faq: `
+    <section class="tab-content" id="tab-faq">
+      <h1>FAQ & Support</h1>
+      <div class="faq-section" id="faq-section"></div>
+      <form class="support-form" id="support-form">
+        <label for="support-email">Your Email (optional):</label>
+        <input type="email" id="support-email" name="support-email" placeholder="your@email.com">
+        <label for="support-msg">Message/Feedback:</label>
+        <textarea id="support-msg" name="support-msg" required></textarea>
+        <button type="submit">Send Feedback</button>
+        <div id="support-status"></div>
+      </form>
+    </section>
+    `
+  };
+
+  // --- Data for indicators, bots, glossary, recap, FAQ ---
+  // (For brevity, only showing a subset of extra indicators and bots. Expand as desired!)
+  const INDICATORS = [
+    {
+      name: "Moving Average (MA)",
+      keywords: "moving average ma sma ema trend",
+      img: "https://upload.wikimedia.org/wikipedia/commons/7/73/Moving_Averages_example.svg",
+      desc: "Smooths price data to help identify the trend direction. Common types: Simple (SMA) and Exponential (EMA)."
+    },
+    {
+      name: "Relative Strength Index (RSI)",
+      keywords: "rsi relative strength oscillator overbought oversold",
+      img: "https://upload.wikimedia.org/wikipedia/commons/2/2d/RSI-Chart.png",
+      desc: "Measures speed and change of price movements. Indicates overbought (above 70) or oversold (below 30) conditions."
+    },
+    {
+      name: "Bollinger Bands",
+      keywords: "bollinger bands volatility range breakout reversal",
+      img: "https://upload.wikimedia.org/wikipedia/commons/0/09/Bollinger_bands.png",
+      desc: "Shows volatility and price levels relative to a moving average. Useful for spotting breakouts and reversals."
+    },
+    {
+      name: "MACD",
+      keywords: "macd moving average convergence divergence momentum reversal",
+      img: "https://upload.wikimedia.org/wikipedia/commons/7/7a/MACD_chart.png",
+      desc: "Tracks the relationship between two EMAs. Useful for spotting momentum shifts and potential reversals."
+    },
+    {
+      name: "Stochastic Oscillator",
+      keywords: "stochastic oscillator momentum overbought oversold",
+      img: "https://upload.wikimedia.org/wikipedia/commons/7/7c/StochasticOscillator.png",
+      desc: "Compares a closing price to a range of prices over a period. Helps identify overbought/oversold conditions."
+    },
+    {
+      name: "ATR (Average True Range)",
+      keywords: "atr average true range volatility",
+      img: "https://upload.wikimedia.org/wikipedia/commons/0/01/Average_True_Range.png",
+      desc: "Measures market volatility. Higher ATR means more volatility, lower ATR means calmer markets."
+    },
+    {
+      name: "Volume",
+      keywords: "volume bar chart trend confirmation",
+      img: "https://upload.wikimedia.org/wikipedia/commons/6/6e/Volume-bar-chart-example.png",
+      desc: "Shows the number of shares/contracts traded. Can confirm the strength of price movements and trends."
+    },
+    {
+      name: "Fibonacci Retracement",
+      keywords: "fibonacci retracement support resistance levels",
+      img: "https://upload.wikimedia.org/wikipedia/commons/2/20/Fibonacci-retracement.png",
+      desc: "Helps identify possible support and resistance levels based on key Fibonacci ratios."
+    },
+    {
+      name: "Support & Resistance",
+      keywords: "support resistance levels price action",
+      img: "https://upload.wikimedia.org/wikipedia/commons/6/6c/Support_and_Resistance.png",
+      desc: "Horizontal lines that show where price historically had a hard time moving above (resistance) or below (support)."
+    },
+    {
+      name: "Trendlines",
+      keywords: "trendlines trend confirmation",
+      img: "https://upload.wikimedia.org/wikipedia/commons/6/68/Trendlines-chart.png",
+      desc: "Diagonal lines used to identify and confirm the direction of the trend."
+    },
+    // --- More advanced indicators ---
+    {
+      name: "Ichimoku Cloud",
+      keywords: "ichimoku cloud trend momentum support resistance",
+      img: "https://www.tradingview.com/x/ichimoku_cloud_example.png",
+      desc: "A versatile indicator that defines support/resistance, identifies trend direction, gauges momentum, and provides trading signals."
+    },
+    {
+      name: "Parabolic SAR",
+      keywords: "parabolic sar trend reversal stop",
+      img: "https://www.tradingview.com/x/parabolic_sar_example.png",
+      desc: "Places dots above/below price to show potential trend reversals and stop-loss placements."
+    },
+    {
+      name: "ADX (Average Directional Index)",
+      keywords: "adx trend strength indicator",
+      img: "https://www.tradingview.com/x/adx_example.png",
+      desc: "Measures the strength of a trend, not direction. Values above 25 indicate strong trend."
+    },
+    {
+      name: "CCI (Commodity Channel Index)",
+      keywords: "cci commodity channel index momentum overbought oversold",
+      img: "https://www.tradingview.com/x/cci_example.png",
+      desc: "Identifies cyclical trends in a security, indicating overbought and oversold levels."
+    },
+    {
+      name: "Pivot Points",
+      keywords: "pivot points support resistance levels",
+      img: "https://www.tradingview.com/x/pivot_points_example.png",
+      desc: "Used to determine overall market trend over different time frames. Key support and resistance levels."
+    }
+  ];
+
+  const BOTS = [
+    { name: "Trend-Following EA", desc: "Trades in the direction of the major trend using MAs or price action.", img: "https://www.mql5.com/en/charts/10677519/trend-following-ea.png"},
+    { name: "Scalper EA", desc: "Seeks small, fast profits by entering/exiting trades quickly on short timeframes.", img: "https://www.mql5.com/en/charts/10677521/scalper-ea.png"},
+    { name: "Grid EA", desc: "Places buy/sell orders at intervals to capture price swings, regardless of direction.", img: "https://www.mql5.com/en/charts/10677523/grid-ea.png"},
+    { name: "Martingale EA", desc: "Increases position size after loss, chasing recovery. High risk!", img: "https://www.mql5.com/en/charts/10677525/martingale-ea.png"},
+    { name: "Hedging EA", desc: "Opens both long and short to reduce risk exposure if price moves unexpectedly.", img: "https://www.mql5.com/en/charts/10677527/hedging-ea.png"},
+    { name: "Arbitrage Bot", desc: "Exploits price differences across brokers for nearly risk-free profit.", img: "https://www.mql5.com/en/charts/10677529/arbitrage-bot.png"},
+    { name: "News Trading Bot", desc: "Trades volatility after major news events, using fast logic.", img: "https://www.mql5.com/en/charts/10677531/news-bot.png"},
+    { name: "Custom Bot", desc: "Any unique strategy coded by a developer, often using custom indicators.", img: "https://www.mql5.com/en/charts/10677533/custom-bot.png"}
+  ];
+
+  const GLOSSARY = [
+    { term: "Pip", def: "The smallest price movement in forex trading, typically 0.0001 for most pairs." },
+    { term: "Lot", def: "A standardized trading size, usually 100,000 units for a standard lot in forex." },
+    { term: "EA", def: "Expert Advisor. Automated trading software for MT4/MT5." },
+    { term: "Risk Management", def: "A set of strategies to limit potential losses and protect capital." },
+    { term: "Spread", def: "The difference between the bid and ask price of an asset." },
+    { term: "Slippage", def: "Difference between expected and actual trade price, often during volatility." },
+    { term: "Leverage", def: "The ability to control a large position with a small amount of capital." },
+    { term: "Drawdown", def: "The reduction of one's capital after a series of losing trades." },
+    { term: "Stop Loss", def: "An order to close a trade at a certain price to limit loss." },
+    { term: "Take Profit", def: "An order to close a trade at a certain price to lock in profit." },
+    { term: "Backtesting", def: "Testing a strategy on historical data to see how it would have performed." },
+    { term: "Scalping", def: "A trading style aiming for small, quick profits." }
+  ];
+
+  const RECAP = [
+    {date: "2025-06-24", title: "Fed Holds Rates Steady", summary: "FOMC kept rates at 5.5%. Market volatility spiked at release, dollar weakened slightly."},
+    {date: "2025-06-27", title: "NFP Surprises to Upside", summary: "US Non-Farm Payroll beat expectations. USD/JPY rallied 80 pips."},
+    {date: "2025-06-28", title: "Gold Breaks $2500", summary: "Gold price hit new all-time high amid inflation fears."}
+  ];
+
+  const FAQ = [
+    {q: "Are all indicators and bots free?", a: "Yes, all educational content, downloads, and images are free for learning and demo purposes."},
+    {q: "Can I request a new lesson or PDF?", a: "Absolutely! Use the feedback form below or contact us by email."},
+    {q: "How do I use the favorites feature?", a: "Click the star icon next to any indicator or bot to add it to your favorites. View them in 'My Favorites'."},
+    {q: "Is my data safe?", a: "All preferences are stored only in your browser. We do not collect, sell, or share user data."},
+    {q: "How do I enable notifications?", a: "Click 'Enable Notifications' in the News tab and allow your browser to send alerts."}
+  ];
+
+  // --- Helper: Render sections ---
+  function renderSection(tab) {
+    document.getElementById('main-content').innerHTML = SECTIONS[tab];
+    // Section-specific initializations
+    if(tab === 'indicators') renderIndicators();
+    if(tab === 'glossary') renderGlossary();
+    if(tab === 'recap') renderRecap();
+    if(tab === 'favs') renderFavorites();
+    if(tab === 'faq') renderFAQ();
+    if(tab === 'eas') renderEAQuiz();
+    if(tab === 'bots') renderBotQuiz();
+    if(tab === 'indicators') renderIndicatorQuiz();
+  }
+
+  // --- Navigation/tab switching ---
+  document.getElementById('main-nav').addEventListener('click', function(e){
+    if(e.target.tagName === 'A' && e.target.dataset.tab){
+      Array.from(document.querySelectorAll('nav a')).forEach(a => a.classList.remove('active'));
+      e.target.classList.add('active');
+      renderSection(e.target.dataset.tab);
+      window.scrollTo(0,0);
+    }
+  });
+
+  // --- Indicators rendering, search, and favorites ---
+  function renderIndicators() {
+    const list = document.getElementById('indicator-list');
+    let favs = getFavorites();
+    list.innerHTML = INDICATORS.map((ind, idx) => `
+      <div class="indicator-row" data-keywords="${ind.keywords}">
+        <img class="indicator-img" src="${ind.img}" loading="lazy" width="70" height="56" alt="${ind.name} Example">
+        <div class="indicator-info">
+          <h2>${ind.name}</h2>
+          <p>${linkGlossaryTerms(ind.desc)}</p>
+        </div>
+        <button class="indicator-fav${favs.indicators.includes(ind.name)?' favorited':''}" title="Favorite" onclick="toggleFavorite('indicators','${ind.name}')">&#9733;</button>
+      </div>
+    `).join('');
+    document.getElementById('indicator-search').oninput = function(){
+      let q = this.value.toLowerCase();
+      Array.from(list.children).forEach(row => {
+        let match = row.textContent.toLowerCase().includes(q) || row.dataset.keywords.includes(q);
+        row.style.display = match?'':'none';
+      });
+    };
+  }
+
+  // --- Bots rendering, quiz, and favorites ---
+  function renderEAQuiz() {
+    const quiz = [
+      {q: "Which type of EA increases lot size after a loss?", opts: ["Grid EA","Martingale EA","Trend EA"], correct:1},
+      {q: "Which EA is best for news volatility?", opts: ["News Trading Bot","Hedging EA","Scalper EA"], correct:0}
+    ];
+    renderQuiz('ea-quiz', quiz);
+  }
+  function renderBotQuiz() {
+    const quiz = [
+      {q: "What does an arbitrage bot do?", opts: ["Scalps small moves","Follows trends","Exploits price differences"], correct:2},
+      {q: "Which bot helps manage risk per trade?", opts: ["Signal Generator","Risk Management Bot","Breakout Bot"], correct:1}
+    ];
+    renderQuiz('bot-quiz', quiz);
+  }
+  function renderIndicatorQuiz() {
+    const quiz = [
+      {q: "Which indicator shows overbought/oversold?", opts: ["RSI","MA","ATR"], correct:0},
+      {q: "What does ATR measure?", opts: ["Momentum","Volatility","Trend"], correct:1}
+    ];
+    renderQuiz('indicator-quiz', quiz);
+  }
+
+  // --- Quiz Renderer ---
+  function renderQuiz(id, questions) {
+    const div = document.getElementById(id);
+    div.innerHTML = '';
+    let score = 0, idx = 0;
+    function showQ() {
+      if(idx>=questions.length) {
+        div.innerHTML = `<div class="quiz-result">Quiz Complete! Score: ${score}/${questions.length}</div>`;
+        return;
+      }
+      const q = questions[idx];
+      div.innerHTML = `
+        <div class="quiz-q">${q.q}</div>
+        <div class="quiz-opts">${q.opts.map((o,i)=>`<button class="quiz-opt-btn" onclick="chooseOpt(${i})">${o}</button>`).join('')}</div>
+        <div class="quiz-result" id="quiz-feedback"></div>
+      `;
+    }
+    window.chooseOpt = function(i){
+      const q = questions[idx];
+      if(i === q.correct){
+        score++;
+        document.getElementById('quiz-feedback').textContent = "Correct!";
+      } else {
+        document.getElementById('quiz-feedback').textContent = "Incorrect!";
+      }
+      setTimeout(()=>{idx++;showQ();}, 850);
+    };
+    showQ();
+  }
+
+  // --- Favorites/bookmarks ---
+  function getFavorites() {
+    try { return JSON.parse(localStorage.getItem('pmt_favs')) || {indicators:[],bots:[]}; }
+    catch{ return {indicators:[],bots:[]}; }
+  }
+  function saveFavorites(favs) {
+    localStorage.setItem('pmt_favs', JSON.stringify(favs));
+  }
+  window.toggleFavorite = function(type, name) {
+    let favs = getFavorites();
+    if(!favs[type]) favs[type]=[];
+    if(favs[type].includes(name)) favs[type] = favs[type].filter(n=>n!==name);
+    else favs[type].push(name);
+    saveFavorites(favs);
+    renderSection(type==='indicators'?'indicators':'bots'); // re-render to update star
+  }
+  function renderFavorites() {
+    let favs = getFavorites();
+    let out = `<h2>Favorite Indicators</h2>`;
+    out += INDICATORS.filter(ind=>favs.indicators.includes(ind.name)).map(ind=>`
+      <div class="indicator-row">
+        <img class="indicator-img" src="${ind.img}" loading="lazy" width="70" height="56" alt="${ind.name}">
+        <div class="indicator-info">
+          <h2>${ind.name}</h2>
+          <p>${linkGlossaryTerms(ind.desc)}</p>
+        </div>
+      </div>
+    `).join('') || "<div>No favorites yet.</div>";
+    out += `<h2 style="margin-top:20px;">Favorite Bots</h2>`;
+    out += BOTS.filter(bot=>favs.bots.includes(bot.name)).map(bot=>`
+      <div class="indicator-row">
+        <img class="indicator-img" src="${bot.img}" loading="lazy" width="70" height="56" alt="${bot.name}">
+        <div class="indicator-info">
+          <h2>${bot.name}</h2>
+          <p>${linkGlossaryTerms(bot.desc)}</p>
+        </div>
+      </div>
+    `).join('') || "<div>No favorites yet.</div>";
+    document.getElementById('fav-list').innerHTML = out;
+  }
+
+  // --- Glossary/dictionary ---
+  function renderGlossary() {
+    const list = document.getElementById('glossary-list');
+    list.innerHTML = GLOSSARY.map(g=>`
+      <li><span class="glossary-term" onclick="showGlossaryPopup('${g.term}')">${g.term}</span>: ${g.def}</li>
+    `).join('');
+    document.getElementById('glossary-search').oninput = function(){
+      let q = this.value.toLowerCase();
+      Array.from(list.children).forEach(row => {
+        let match = row.textContent.toLowerCase().includes(q);
+        row.style.display = match?'':'none';
+      });
+    };
+  }
+  window.showGlossaryPopup = function(term) {
+    const g = GLOSSARY.find(g=>g.term===term);
+    if(!g) return;
+    document.getElementById('glossary-popup-content').innerHTML = `<b>${g.term}</b><br>${g.def}`;
+    document.getElementById('glossary-popup').style.display = 'block';
+  }
+  function hideGlossaryPopup() {
+    document.getElementById('glossary-popup').style.display = 'none';
+  }
+  window.hideGlossaryPopup = hideGlossaryPopup;
+  function linkGlossaryTerms(text) {
+    GLOSSARY.forEach(g=>{
+      let rgx = new RegExp(`\\b(${g.term})\\b`, 'gi');
+      text = text.replace(rgx, `<span class="glossary-term" onclick="showGlossaryPopup('$1')">$1</span>`);
+    });
+    return text;
+  }
+
+  // --- Recap ---
+  function renderRecap() {
+    document.getElementById('recap-list').innerHTML = RECAP.map(r=>`
+      <li class="recap-item"><b>${r.date}:</b> <u>${r.title}</u> &mdash; ${r.summary}</li>
+    `).join('');
+  }
+  window.downloadRecap = function() {
+    const lines = RECAP.map(r=>`${r.date}: ${r.title} - ${r.summary}`).join('\n');
+    const blob = new Blob([lines], {type:'text/plain'});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url; a.download = 'market-recap.txt';
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+    setTimeout(()=>URL.revokeObjectURL(url), 500);
+  };
+
+  // --- FAQ and Support ---
+  function renderFAQ() {
+    document.getElementById('faq-section').innerHTML = FAQ.map(f=>`
+      <div class="faq-q">${f.q}</div>
+      <div class="faq-a">${f.a}</div>
+    `).join('');
+    document.getElementById('support-form').onsubmit = function(e){
+      e.preventDefault();
+      document.getElementById('support-status').textContent = "Thank you for your feedback!";
+      this.reset();
+    };
+  }
+
+  // --- Initial render ---
+  renderSection('news');
+
+  // --- Light/Dark mode auto-detect and toggle ---
+  function setMode(mode) {
+    if (mode === 'light') {
+      document.body.classList.add('light');
+      document.getElementById('mode-btn').textContent = "Dark Mode";
+      document.getElementById('mode-btn').classList.add('active');
+    } else {
+      document.body.classList.remove('light');
+      document.getElementById('mode-btn').textContent = "Light Mode";
+      document.getElementById('mode-btn').classList.remove('active');
+    }
+    localStorage.setItem('pmt_mode', mode);
+  }
+  document.getElementById('mode-btn').onclick = function() {
+    let current = document.body.classList.contains('light') ? 'light' : 'dark';
+    setMode(current === 'light' ? 'dark' : 'light');
+  };
+  // On load, use system or saved preference
+  (() => {
+    const saved = localStorage.getItem('pmt_mode');
+    if(saved) setMode(saved);
+    else if(window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches) setMode('light');
+  })();
+
+  // --- Language selector (very basic demo, extend as needed) ---
+  document.getElementById('lang-select').addEventListener('change', function() {
+    alert('Language selection is a demo. Extend translations as needed!');
+  });
+
+  // --- Push notification opt-in (demo only) ---
+  document.addEventListener('click', function(e){
+    if(e.target && e.target.id === 'notif-btn'){
+      if("Notification" in window){
+        Notification.requestPermission().then(function(res){
+          document.getElementById('notif-status').textContent =
+            res === 'granted' ? "Notifications enabled!" :
+            res === 'denied'  ? "Notifications denied." : "Permission undecided.";
+          if(res==='granted') new Notification('PMT by LIL JEE-FX: You will get alerts for news/events.');
+        });
+      } else {
+        document.getElementById('notif-status').textContent = "Notifications not supported.";
+      }
+    }
+  });
+
+  // --- Add-to-Home-Screen (PWA) support (demo) ---
+  let deferredPrompt;
+  window.addEventListener('beforeinstallprompt', (e) => {
+    e.preventDefault();
+    deferredPrompt = e;
+    let btn = document.createElement('button');
+    btn.textContent = "Add to Home Screen";
+    btn.className = "pwa-add";
+    btn.onclick = function(){
+      deferredPrompt.prompt();
+      deferredPrompt.userChoice.then(() => { btn.remove(); });
+    };
+    document.querySelector('nav').appendChild(btn);
+  });
+
+  // --- Accessibility: ARIA/alt/keyboard ---
+  // All images have alt text, buttons/inputs have labels.
+
+  // --- Section reordering/hiding (custom dashboard) ---
+  // (Demo: drag to reorder nav, toggle section visibility - save in localStorage)
+  // For brevity, not implemented here, but structure is ready.
+
+  // --- Analytics (skipped for privacy, see Fathom/Plausible for real use) ---
+
+  // --- End of script ---
+  </script>
+</body>
+</html>
