@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>Traders’ Hub</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: #17191b;
+      color: #fff;
+    }
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 18px 28px;
+      background: #222528;
+      box-shadow: 0 2px 12px #0aff8322;
+    }
+    .logo {
+      font-size: 1.5em;
+      font-weight: bold;
+      letter-spacing: 0.04em;
+    }
+    .accent { color: #07c24a; }
+    nav { display: flex; gap: 26px; }
+    nav a {
+      color: #fff;
+      font-weight: 600;
+      padding: 7px 18px;
+      border-radius: 6px;
+      text-decoration: none;
+      transition: background .16s, color .13s;
+      cursor: pointer;
+      border: none;
+      background: none;
+      outline: none;
+      font-size: 1em;
+    }
+    nav a.active, nav a:hover {
+      background: #07c24a;
+      color: #181A1B;
+    }
+    main {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 32px 16px 24px 16px;
+      min-height: 60vh;
+    }
+    h1 { color: #07c24a; }
+    footer {
+      background: #222528;
+      color: #a5a5a5;
+      text-align: center;
+      font-size: 0.97em;
+      padding: 18px 0 10px 0;
+      border-radius: 0 0 9px 9px;
+      box-shadow: 0 -2px 14px #0aff8321;
+      margin-top: 38px;
+    }
+    .calendar-placeholder {
+      background: #232526;
+      border-radius: 10px;
+      padding: 38px 18px;
+      margin: 42px 0 0 0;
+      color: #eee;
+      text-align: center;
+      font-size: 1.2em;
+      font-weight: 600;
+      box-shadow: 0 2px 14px #0aff8333;
+    }
+    .ea-explainer ul {
+      padding-left: 24px;
+      margin-top: 16px;
+    }
+    .ea-explainer li {
+      margin-bottom: 10px;
+    }
+    .indicator-list h2 {
+      color: #3bf07b;
+      margin-top: 28px;
+      margin-bottom: 6px;
+      font-size: 1.17em;
+    }
+    .indicator-list p {
+      margin: 0 0 8px 0;
+      color: #f7fff6;
+    }
+    .hidden { display: none !important; }
+    @media (max-width: 600px) {
+      header { flex-direction: column; align-items: flex-start; padding: 16px 9px;}
+      nav { gap: 12px; }
+      main { padding: 18px 5px 12px 5px; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">Traders’ <span class="accent">Hub</span></div>
+    <nav>
+      <a id="tab-news" class="active" onclick="showTab('news')">News & Events</a>
+      <a id="tab-eas" onclick="showTab('eas')">How EAs Work</a>
+      <a id="tab-indicators" onclick="showTab('indicators')">Useful Indicators</a>
+    </nav>
+  </header>
+  <main>
+    <!-- News & Events -->
+    <section id="content-news">
+      <h1>Important News & Events</h1>
+      <p>Stay updated on the latest economic events and trading news. The economic calendar below is updated regularly.</p>
+      <div class="calendar-placeholder">
+        <strong>Economic Calendar Coming Soon</strong>
+        <!-- You will embed your calendar widget here or add news event images here later -->
+      </div>
+      <!-- Placeholder for future news images/gallery -->
+      <!-- <div class="image-grid"></div> -->
+    </section>
+
+    <!-- How EAs Work -->
+    <section id="content-eas" class="hidden">
+      <h1>How Expert Advisors (EAs) Work</h1>
+      <section class="ea-explainer">
+        <p><strong>Expert Advisors (EAs)</strong> are automated trading systems—essentially, programs that run on platforms like MetaTrader 4 or 5 (MT4/MT5) to trade financial markets on your behalf. They follow a set of pre-programmed rules and logic to analyze the market, manage trades, and execute buy or sell orders based on signals or strategies.</p>
+        <ul>
+          <li><strong>Automation:</strong> EAs can trade 24/5 without human intervention, reacting instantly to market conditions.</li>
+          <li><strong>Strategy-Based:</strong> Each EA is coded to follow specific strategies—trend following, scalping, grid, martingale, hedging, etc.</li>
+          <li><strong>Backtesting:</strong> Traders can test EAs on historical data to evaluate performance before using them live.</li>
+          <li><strong>Parameters:</strong> EAs often let users set parameters like lot size, stop loss, take profit, trading times, and risk controls.</li>
+          <li><strong>Risk:</strong> EAs can make mistakes or lose money if market conditions change or the logic is flawed. Always monitor performance and use proper risk management.</li>
+          <li><strong>Benefits:</strong> Speed, discipline (no emotions), the ability to handle multiple symbols, and consistency in trade execution.</li>
+          <li><strong>Limitations:</strong> EAs are only as good as their coding and strategy, and cannot adapt to unexpected news or market shocks unless programmed to do so.</li>
+        </ul>
+        <p>In summary, EAs are powerful tools for automating trading, but they require careful setup, monitoring, and risk management for consistent success.</p>
+      </section>
+      <!-- Placeholder for future EA images or diagrams -->
+      <!-- <div class="image-grid"></div> -->
+    </section>
+
+    <!-- Useful Indicators -->
+    <section id="content-indicators" class="hidden">
+      <h1>Most Useful Trading Indicators</h1>
+      <section class="indicator-list">
+        <h2>Moving Average (MA)</h2>
+        <p>Smooths price data to help identify the direction of the trend. Common types: Simple (SMA) and Exponential (EMA).</p>
+        <h2>Relative Strength Index (RSI)</h2>
+        <p>Measures the speed and change of price movements. Indicates overbought (above 70) or oversold (below 30) conditions.</p>
+        <h2>Bollinger Bands</h2>
+        <p>Shows volatility and price levels relative to a moving average. Useful for spotting price breakouts and reversals.</p>
+        <h2>MACD (Moving Average Convergence Divergence)</h2>
+        <p>Tracks the relationship between two EMAs. Useful for spotting momentum shifts, trend direction, and potential reversals.</p>
+        <h2>Stochastic Oscillator</h2>
+        <p>Compares a particular closing price to a range of its prices over a certain period. Helps identify overbought/oversold conditions.</p>
+        <h2>ATR (Average True Range)</h2>
+        <p>Measures market volatility. Higher ATR means more volatility, lower ATR means calmer markets.</p>
+        <h2>Volume</h2>
+        <p>Shows the number of shares/contracts traded. Can confirm the strength of price movements and trends.</p>
+        <h2>Fibonacci Retracement</h2>
+        <p>Helps identify possible support and resistance levels based on key Fibonacci ratios.</p>
+        <h2>Support & Resistance Levels</h2>
+        <p>Horizontal lines that show where price has historically had a hard time moving above (resistance) or below (support).</p>
+        <h2>Trendlines</h2>
+        <p>Diagonal lines used to identify and confirm the direction of the trend.</p>
+        <!-- Placeholder for future indicator images -->
+        <!-- <div class="image-grid"></div> -->
+      </section>
+    </section>
+  </main>
+  <footer>
+    &copy; 2025 Traders’ Hub. All rights reserved.
+  </footer>
+  <script>
+    function showTab(tab) {
+      document.getElementById('content-news').classList.add('hidden');
+      document.getElementById('content-eas').classList.add('hidden');
+      document.getElementById('content-indicators').classList.add('hidden');
+      document.getElementById('tab-news').classList.remove('active');
+      document.getElementById('tab-eas').classList.remove('active');
+      document.getElementById('tab-indicators').classList.remove('active');
+      if (tab === 'news') {
+        document.getElementById('content-news').classList.remove('hidden');
+        document.getElementById('tab-news').classList.add('active');
+      } else if (tab === 'eas') {
+        document.getElementById('content-eas').classList.remove('hidden');
+        document.getElementById('tab-eas').classList.add('active');
+      } else if (tab === 'indicators') {
+        document.getElementById('content-indicators').classList.remove('hidden');
+        document.getElementById('tab-indicators').classList.add('active');
+      }
+      window.scrollTo(0,0);
+    }
+    // Optional: handle hash in URL for direct linking
+    if (window.location.hash) {
+      const hash = window.location.hash.replace('#','');
+      if (['news','eas','indicators'].includes(hash)) showTab(hash);
+    }
+  </script>
+</body>
+</html>
