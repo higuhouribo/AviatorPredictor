@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>Smart-Trade ProEA - App Design</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="app-bg">
+  <div class="app-device">
+    <div class="app-topbar">
+      <span class="app-logo">Smart-Trade <span class="logo-accent">ProEA</span></span>
+    </div>
+    <div class="app-content">
+      <div class="app-section">
+        <div class="app-row">
+          <span class="app-section-title">Bots</span>
+          <button class="btn green-btn app-small-btn" id="add-bot-btn">Add New Key</button>
+        </div>
+        <div id="app-bot-list"></div>
+      </div>
+      <div class="app-section">
+        <div class="app-row">
+          <span class="app-section-title">Account</span>
+          <button class="btn dark-btn app-small-btn" id="add-acc-btn">Add Trading Account</button>
+        </div>
+        <div id="app-account-list"></div>
+      </div>
+    </div>
+    <div class="app-footer">
+      <button class="btn dark-btn" id="mentor-verify-btn">Mentor Verification</button>
+    </div>
+  </div>
+
+  <!-- Modal overlays -->
+  <div class="modal" id="bot-log-modal">
+    <div class="modal-content">
+      <span class="modal-close" id="close-bot-log">&times;</span>
+      <h3>Bot Logs & Status</h3>
+      <div id="modal-bot-logs"></div>
+    </div>
+  </div>
+  <div class="modal" id="mentor-modal">
+    <div class="modal-content">
+      <span class="modal-close" id="close-mentor-modal">&times;</span>
+      <h3>Mentor/Bot Details</h3>
+      <div>
+        <b>Owner:</b> Smart-Trade ProEA<br>
+        <b>Bot:</b> <span id="mentor-bot-name">All active</span><br>
+        <b>Contact:</b> mentor@proea.com<br>
+        <b>Verified:</b> <span style="color:#07c24a;">Yes</span>
+      </div>
+    </div>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>
