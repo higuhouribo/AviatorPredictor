@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Smart-Trade EA - Mentor Portal</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="top-bar">
+  <div class="menu-toggle" onclick="toggleSidebar()">&#9776;</div>
+  <div class="profile-icon" onclick="toggleProfile()">M</div>
+  <div class="profile-dropdown" id="profileDropdown">
+    <p><strong>Mentor:</strong> Lil Jee</p>
+    <p><strong>Email:</strong> pmtservices123@gmail.com</p>
+    <p><strong>ID:</strong> MNT-00001</p>
+  </div>
+</div>
+
+<div class="sidebar" id="sidebar">
+  <a href="#" onclick="showSection('createEA')">Create EA</a>
+  <a href="#" onclick="showSection('createKey')">Create License Key</a>
+  <a href="#" onclick="showSection('purchaseKeys')">Purchase Additional Keys</a>
+  <a href="#" onclick="showSection('keyStats')">View Key Stats</a>
+</div>
+
+<div class="content">
+  <div class="welcome-box">
+    <h2>Hello, Lil Jee</h2>
+    <p id="dateTime"></p>
+  </div>
+
+  <div id="createEA" class="form-section">
+    <h3>Create New EA</h3>
+    <label>EA Name</label>
+    <input type="text" id="eaName" />
+
+    <label>Upload EA Logo</label>
+    <input type="file" id="eaLogo" accept="image/*" />
+
+    <button class="btn" onclick="generateEA()">Generate EA & Download Hosting File</button>
+  </div>
+
+  <div id="createKey" class="form-section" style="display:none">
+    <h3>Create License Key</h3>
+    <label>User Name</label>
+    <input type="text" id="userName" placeholder="User full name" />
+
+    <label>User Email</label>
+    <input type="email" id="userEmail" placeholder="user@example.com" />
+
+    <label>Expiry</label>
+    <select id="keyExpiry">
+      <option value="3d">3 Days</option>
+      <option value="1m">1 Month</option>
+      <option value="2m">2 Months</option>
+      <option value="6m">6 Months</option>
+      <option value="1y">1 Year</option>
+    </select>
+
+    <button class="btn" onclick="generateKey()">Generate Key</button>
+    <p id="generatedKey"></p>
+  </div>
+
+  <div id="purchaseKeys" class="form-section" style="display:none">
+    <h3>Purchase Additional Keys</h3>
+    <p>Contact <strong>pmtservices123@gmail.com</strong> to buy more keys.</p>
+  </div>
+
+  <div id="keyStats" class="form-section" style="display:none">
+    <h3>Key Stats</h3>
+    <p>(Coming soon: Active / Deactivated keys, user list, expiry tracking)</p>
+  </div>
+</div>
+
+<script src="main.js"></script>
+</body>
+</html>
