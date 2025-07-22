@@ -9,7 +9,6 @@
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Source+Code+Pro&display=swap" rel="stylesheet">
   
   <style>
-    /* 2. USE CSS VARIABLES FOR EASY THEMING */
     :root {
       --color-primary: #00e676;
       --color-green: #00c853;
@@ -56,15 +55,12 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      color: #666;
-      font-size: 14px;
     }
 
-    /* CSS for the logo image */
     .logo-space img {
       width: 100%;
       height: 100%;
-      object-fit: contain; /* Scales the logo correctly */
+      object-fit: contain;
       border-radius: 10px;
     }
 
@@ -88,7 +84,7 @@
       margin-bottom: 20px;
     }
 
-    .button { /* Universal button style */
+    .button {
       flex: 1;
       padding: 14px;
       border: none;
@@ -115,7 +111,6 @@
     .button-stop { background-color: var(--color-red); color: var(--color-text); }
     .button-primary { background-color: var(--color-green); color: var(--color-text); }
 
-
     .card-logs {
       display: none;
       background-color: var(--bg-surface);
@@ -126,7 +121,7 @@
       color: #0f0;
       margin-bottom: 20px;
       max-height: 200px;
-      overflow-y: auto; /* Allow scrolling if logs get long */
+      overflow-y: auto;
     }
 
     .bottom-nav {
@@ -171,6 +166,7 @@
       width: 90%;
       max-width: 400px;
     }
+
     .modal-header {
         display: flex;
         justify-content: space-between;
@@ -264,8 +260,7 @@
   <div class="modal" id="settingsModal">
     <div class="modal-content">
       <div class="modal-header"><h3>Symbol Settings</h3><button class="close-btn">✖</button></div>
-      <div id="symbolFields">
-      </div>
+      <div id="symbolFields"></div>
       <button id="addSymbolBtn" class="button button-secondary" style="width: 100%; margin-bottom: 10px;">+ Add Symbol</button>
       <button id="saveSettingsBtn" class="button button-primary" style="width: 100%;">Save Settings</button>
     </div>
@@ -282,7 +277,7 @@
     </div>
   </div>
   
-   <div class="modal" id="mt5Modal">
+  <div class="modal" id="mt5Modal">
     <div class="modal-content">
       <div class="modal-header"><h3>Connect to MT5</h3><button class="close-btn">✖</button></div>
       <div class="form-group">
@@ -303,12 +298,9 @@
 
   <script>
     document.addEventListener('DOMContentLoaded', () => {
-
-      // --- Element Selectors ---
       const logBox = document.getElementById('logBox');
       const modals = document.querySelectorAll('.modal');
 
-      // --- Functions ---
       const showModal = (modalId) => {
         const modal = document.getElementById(modalId);
         if(modal) modal.classList.add('show');
@@ -327,16 +319,16 @@
       };
 
       const addSymbolField = () => {
-          const container = document.getElementById("symbolFields");
-          const set = document.createElement("div");
-          set.className = "form-group";
-          set.innerHTML = `
-            <input type="text" placeholder="Symbol (e.g. GBPUSD)">
-            <input type="text" placeholder="Lot Size" style="margin-top: 8px;">
-            <input type="number" placeholder="Max Trades" style="margin-top: 8px;">
-            <hr style="border-color: #333; margin-top: 15px;">
-          `;
-          container.appendChild(set);
+        const container = document.getElementById("symbolFields");
+        const set = document.createElement("div");
+        set.className = "form-group";
+        set.innerHTML = `
+          <input type="text" placeholder="Symbol (e.g. GBPUSD)">
+          <input type="text" placeholder="Lot Size" style="margin-top: 8px;">
+          <input type="number" placeholder="Max Trades" style="margin-top: 8px;">
+          <hr style="border-color: #333; margin-top: 15px;">
+        `;
+        container.appendChild(set);
       };
 
       const displayEaLogo = (imageUrl) => {
@@ -344,28 +336,25 @@
         if (!logoContainer) return;
         logoContainer.innerHTML = ''; 
         const logoImage = document.createElement('img');
-        logoImage.src = logo;
-        logoImage.alt = 'logo';
+        logoImage.src = imageUrl;
+        logoImage.alt = 'EA Logo';
         logoContainer.appendChild(logoImage);
       };
 
-      // --- Event Listeners ---
       document.getElementById('addKeyBtn').addEventListener('click', () => showModal('keyModal'));
       document.getElementById('infoBtn').addEventListener('click', () => showModal('infoModal'));
       document.getElementById('settingsBtn').addEventListener('click', () => {
-          showModal('settingsModal');
-          if(document.getElementById('symbolFields').childElementCount === 0) {
-              addSymbolField();
-          }
+        showModal('settingsModal');
+        if(document.getElementById('symbolFields').childElementCount === 0) {
+          addSymbolField();
+        }
       });
       document.getElementById('mt5NavBtn').addEventListener('click', () => showModal('mt5Modal'));
       document.getElementById('helpNavBtn').addEventListener('click', () => showModal('helpModal'));
       
       modals.forEach(modal => {
         modal.addEventListener('click', (event) => {
-          if (event.target === modal) {
-            hideAllModals();
-          }
+          if (event.target === modal) hideAllModals();
         });
         modal.querySelector('.close-btn').addEventListener('click', hideAllModals);
       });
@@ -373,35 +362,35 @@
       document.getElementById('startBtn').addEventListener('click', () => addLog('Bot Started...'));
       document.getElementById('stopBtn').addEventListener('click', () => addLog('Bot Stopped.'));
       document.getElementById('toggleLogsBtn').addEventListener('click', () => {
-          const isHidden = logBox.style.display === 'none' || logBox.style.display === '';
-          logBox.style.display = isHidden ? 'block' : 'none';
-          document.getElementById('toggleLogsBtn').textContent = isHidden ? 'Hide Logs' : 'Show Logs';
+        const isHidden = logBox.style.display === 'none' || logBox.style.display === '';
+        logBox.style.display = isHidden ? 'block' : 'none';
+        document.getElementById('toggleLogsBtn').textContent = isHidden ? 'Hide Logs' : 'Show Logs';
       });
 
       document.getElementById('activateKeyBtn').addEventListener('click', () => {
-          const key = document.getElementById("keyInput").value;
-          if (key.trim()) {
-              addLog('License Key Activated.');
-              hideAllModals();
-          } else {
-              alert('Please enter a license key.');
-          }
-      });
-      document.getElementById('connectMt5Btn').addEventListener('click', () => {
-          addLog('MT5 Account Connected Successfully.');
+        const key = document.getElementById("keyInput").value;
+        if (key.trim()) {
+          addLog('License Key Activated.');
           hideAllModals();
-      });
-      document.getElementById('addSymbolBtn').addEventListener('click', addSymbolField);
-      
-      document.getElementById('homeBtn').addEventListener('click', () => {
-          window.scrollTo({ top: 0, behavior: 'smooth' });
+        } else {
+          alert('Please enter a license key.');
+        }
       });
 
-      // --- Initialisation ---
-      // ** CHANGE THIS URL TO YOUR ACTUAL LOGO IMAGE PATH **
-      displayEaLogo('logo');
+      document.getElementById('connectMt5Btn').addEventListener('click', () => {
+        addLog('MT5 Account Connected Successfully.');
+        hideAllModals();
+      });
+
+      document.getElementById('addSymbolBtn').addEventListener('click', addSymbolField);
+      document.getElementById('homeBtn').addEventListener('click', () => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+
+      // ✅ Logo image file should exist in the same directory as this HTML file
+      displayEaLogo('logo.png');
       addLog('Welcome to Smart-Trade-Pro. Ready to begin.');
     });
   </script>
 </body>
-</html>
+            </html>
