@@ -3,33 +3,149 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Smart-Trade-Pro (Enhanced)</title>
+  <title>Smart-Trade-Pro (Cyberpunk)</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Source+Code+Pro&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Source+Code+Pro:wght@500;600&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
   
   <style>
     :root {
       --color-primary: #00e676;
-      --color-green: #00c853;
-      --color-red: #d50000;
+      --color-primary-dark: #00b853;
+      --color-accent: #00bcd4;
+      --color-green: #1de9b6;
+      --color-red: #ff1744;
+      --color-warning: #ffb300;
       --color-text: #ffffff;
-      --color-text-muted: #aaa;
-      --bg-main: #000;
-      --bg-surface: #111;
-      --bg-card: #1c1c1c;
-      --bg-input: #333;
-      --border-color: #444;
+      --color-text-muted: #b0b0b0;
+      --bg-main: #0a0e27;
+      --bg-surface: #111a2e;
+      --bg-card: #1a2644;
+      --bg-input: #0f1729;
+      --border-color: #2a3a5a;
+      --shadow-sm: 0 2px 8px rgba(0, 230, 118, 0.1);
+      --shadow-md: 0 8px 24px rgba(0, 230, 118, 0.15);
+      --shadow-lg: 0 16px 48px rgba(0, 230, 118, 0.2);
+      --glow-primary: 0 0 20px rgba(0, 230, 118, 0.5);
+      --glow-accent: 0 0 15px rgba(0, 188, 212, 0.4);
+    }
+
+    body.light-mode {
+      --color-primary: #0066cc;
+      --color-primary-dark: #004499;
+      --color-accent: #00bcd4;
+      --color-text: #1a1a1a;
+      --color-text-muted: #666666;
+      --bg-main: #f5f5f5;
+      --bg-surface: #ffffff;
+      --bg-card: #f0f4ff;
+      --bg-input: #e8f0ff;
+      --border-color: #d0d8ff;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
     }
 
     body {
-      margin: 0;
       font-family: 'Roboto', sans-serif;
-      background-color: var(--bg-main);
       color: var(--color-text);
       display: flex;
       flex-direction: column;
       min-height: 100vh;
+      overflow-x: hidden;
+      transition: background 0.5s ease;
+    }
+
+    /* Background Slideshow */
+    .bg-slideshow {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -2;
+      background: var(--bg-main);
+    }
+
+    .bg-slideshow::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, #0a0e27 0%, #1a1a3e 50%, #0a0e27 100%);
+      animation: bgShift 15s ease-in-out infinite;
+      z-index: -2;
+    }
+
+    @keyframes bgShift {
+      0%, 100% {
+        background: linear-gradient(135deg, #0a0e27 0%, #1a1a3e 50%, #0a0e27 100%);
+      }
+      50% {
+        background: linear-gradient(45deg, #0f1535 0%, #1a2f5a 50%, #0a0e27 100%);
+      }
+    }
+
+    .bg-image-container {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      opacity: 0.15;
+      z-index: -1;
+    }
+
+    .bg-image {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background-size: cover;
+      background-position: center;
+      opacity: 0;
+      animation: slideImage 8s ease-in-out infinite;
+    }
+
+    .bg-image:nth-child(2) {
+      animation-delay: -2.7s;
+    }
+
+    .bg-image:nth-child(3) {
+      animation-delay: -5.4s;
+    }
+
+    @keyframes slideImage {
+      0% { opacity: 0; transform: scale(1.05); }
+      15% { opacity: 0.4; }
+      50% { opacity: 0.3; }
+      85% { opacity: 0; }
+      100% { opacity: 0; transform: scale(1); }
+    }
+
+    body.light-mode .bg-slideshow::before {
+      background: linear-gradient(135deg, #f5f5f5 0%, #e8f0ff 50%, #f5f5f5 100%);
+      animation: bgShiftLight 15s ease-in-out infinite;
+    }
+
+    @keyframes bgShiftLight {
+      0%, 100% {
+        background: linear-gradient(135deg, #f5f5f5 0%, #e8f0ff 50%, #f5f5f5 100%);
+      }
+      50% {
+        background: linear-gradient(45deg, #f0f7ff 0%, #d8e8ff 50%, #f5f5f5 100%);
+      }
+    }
+
+    body.light-mode .bg-image-container {
+      opacity: 0.08;
     }
 
     .container {
@@ -37,270 +153,911 @@
       max-width: 500px;
       margin: auto;
       flex: 1;
+      animation: fadeIn 0.6s ease-out;
+      position: relative;
+      z-index: 1;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Theme Toggle */
+    .theme-toggle {
+      position: fixed;
+      top: 15px;
+      right: 15px;
+      z-index: 100;
+      display: flex;
+      gap: 8px;
+      background: rgba(26, 38, 68, 0.8);
+      padding: 8px;
+      border-radius: 50px;
+      backdrop-filter: blur(10px);
+      border: 1px solid var(--border-color);
+      box-shadow: var(--shadow-md);
+    }
+
+    .theme-btn {
+      width: 36px;
+      height: 36px;
+      border: none;
+      border-radius: 50%;
+      background: transparent;
+      color: var(--color-text);
+      cursor: pointer;
+      font-size: 18px;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .theme-btn:hover {
+      transform: scale(1.15);
+      color: var(--color-primary);
+      text-shadow: var(--glow-primary);
+    }
+
+    .theme-btn.active {
+      background: rgba(0, 230, 118, 0.2);
+      color: var(--color-primary);
+      box-shadow: var(--glow-primary);
+    }
+
+    body.light-mode .theme-btn.active {
+      background: rgba(0, 102, 204, 0.2);
+      color: var(--color-primary);
+      box-shadow: 0 0 15px rgba(0, 102, 204, 0.4);
+    }
+
+    .header-section {
+      text-align: center;
+      margin-bottom: 25px;
+    }
+
+    .header-subtitle {
+      font-size: 11px;
+      color: var(--color-accent);
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      opacity: 0.8;
+      margin-bottom: 8px;
     }
 
     .header-title {
-      text-align: center;
-      font-size: 26px;
-      font-weight: bold;
+      font-size: 32px;
+      font-weight: 700;
       color: var(--color-primary);
-      margin-bottom: 10px;
+      text-shadow: var(--glow-primary);
+      font-family: 'Space Grotesk', sans-serif;
+      letter-spacing: 1px;
+      margin: 0;
     }
 
     .logo-space {
-      height: 250px;
-      background-color: var(--bg-surface);
-      margin: 15px 0;
-      border-radius: 10px;
+      height: 280px;
+      background: rgba(26, 38, 68, 0.4);
+      backdrop-filter: blur(10px);
+      margin: 20px 0;
+      border-radius: 20px;
       display: flex;
       justify-content: center;
       align-items: center;
+      border: 2px solid var(--border-color);
+      position: relative;
+      overflow: hidden;
+      box-shadow: inset 0 0 30px rgba(0, 230, 118, 0.05);
+    }
+
+    .logo-space::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 200%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(0, 230, 118, 0.1), transparent);
+      animation: shimmer 4s infinite;
+      z-index: 1;
+    }
+
+    @keyframes shimmer {
+      0% { left: -100%; }
+      100% { left: 100%; }
     }
 
     .logo-space img {
-      width: 100%;
-      height: 100%;
+      width: 90%;
+      height: 90%;
       object-fit: contain;
-      border-radius: 10px;
-      filter: brightness(1.2);
+      border-radius: 12px;
+      filter: brightness(1.3) drop-shadow(0 0 20px rgba(0, 230, 118, 0.3));
+      position: relative;
+      z-index: 2;
     }
 
     .ea-name {
       text-align: center;
-      font-size: 22px;
-      margin-top: 5px;
-      font-weight: bold;
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--color-primary);
+      font-family: 'Space Grotesk', sans-serif;
+      margin: 15px 0 5px 0;
     }
 
     .ea-desc {
       text-align: center;
-      font-size: 14px;
+      font-size: 12px;
       color: var(--color-text-muted);
-      margin-bottom: 20px;
-    }
-
-    .action-buttons, .start-stop {
-      display: flex;
-      gap: 10px;
-      margin-bottom: 20px;
-    }
-
-    .button {
-      flex: 1;
-      padding: 14px;
-      border: none;
-      border-radius: 8px;
-      font-weight: bold;
-      font-size: 16px;
-      cursor: pointer;
-      transition: transform 0.2s ease, opacity 0.2s ease;
-    }
-    
-    .button:active {
-      transform: scale(0.98);
+      margin-bottom: 25px;
+      line-height: 1.6;
       opacity: 0.9;
     }
 
-    .button-secondary {
-      background-color: var(--bg-card);
-      color: var(--color-text);
-      border: 1px solid var(--border-color);
-    }
-    .button-secondary:hover { background-color: var(--bg-input); }
-
-    .button-start { background-color: var(--color-green); color: var(--color-text); }
-    .button-stop { background-color: var(--color-red); color: var(--color-text); }
-    .button-primary { background-color: var(--color-green); color: var(--color-text); }
-
-    .card-logs {
-      display: none;
-      background-color: var(--bg-surface);
-      border-radius: 10px;
-      padding: 15px;
-      font-family: 'Source Code Pro', monospace;
-      font-size: 13px;
-      color: #0f0;
+    /* Floating Circular Buttons */
+    .action-buttons, .start-stop {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
       margin-bottom: 20px;
-      max-height: 200px;
+      flex-wrap: wrap;
+    }
+
+    .button-circular {
+      width: 70px;
+      height: 70px;
+      border-radius: 50%;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      font-size: 12px;
+      font-weight: 600;
+      transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+      position: relative;
+      overflow: hidden;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      backdrop-filter: blur(10px);
+      animation: float 3s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-10px); }
+    }
+
+    .button-circular:nth-child(2) {
+      animation-delay: 0.2s;
+    }
+
+    .button-circular:nth-child(3) {
+      animation-delay: 0.4s;
+    }
+
+    .button-circular::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: rgba(255, 255, 255, 0.2);
+      transition: left 0.5s ease;
+      z-index: 0;
+    }
+
+    .button-circular:hover::before {
+      left: 100%;
+    }
+
+    .button-circular:active {
+      transform: scale(0.9);
+    }
+
+    .button-circular span {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+    }
+
+    .button-circular .icon {
+      font-size: 20px;
+      margin-bottom: 4px;
+    }
+
+    .button-secondary-circular {
+      background: linear-gradient(135deg, rgba(26, 38, 68, 0.8) 0%, rgba(20, 30, 60, 0.9) 100%);
+      color: var(--color-text);
+      border: 2px solid var(--border-color);
+      box-shadow: 0 8px 20px rgba(0, 230, 118, 0.1);
+    }
+
+    .button-secondary-circular:hover {
+      border-color: var(--color-accent);
+      box-shadow: 0 0 25px rgba(0, 188, 212, 0.4);
+      transform: translateY(-15px) scale(1.05);
+    }
+
+    .button-start-circular {
+      background: linear-gradient(135deg, #1de9b6 0%, #00b853 100%);
+      color: #000;
+      font-weight: 700;
+      border: 2px solid #00e676;
+      box-shadow: var(--glow-primary);
+    }
+
+    .button-start-circular:hover {
+      box-shadow: 0 0 35px rgba(0, 230, 118, 0.6);
+      transform: translateY(-15px) scale(1.1);
+    }
+
+    .button-stop-circular {
+      background: linear-gradient(135deg, #ff5252 0%, #d50000 100%);
+      color: #fff;
+      font-weight: 700;
+      border: 2px solid #ff1744;
+      box-shadow: 0 0 20px rgba(255, 23, 68, 0.5);
+    }
+
+    .button-stop-circular:hover {
+      box-shadow: 0 0 35px rgba(255, 23, 68, 0.7);
+      transform: translateY(-15px) scale(1.1);
+    }
+
+    /* Bot Thoughts Section */
+    .bot-thoughts {
+      background: rgba(15, 23, 41, 0.6);
+      backdrop-filter: blur(10px);
+      border-radius: 15px;
+      padding: 18px;
+      margin-bottom: 20px;
+      border: 2px solid var(--border-color);
+      box-shadow: inset 0 0 20px rgba(0, 230, 118, 0.05), 0 8px 24px rgba(0, 0, 0, 0.3);
+    }
+
+    .bot-thoughts-title {
+      font-size: 12px;
+      color: var(--color-accent);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 12px;
+      font-weight: 600;
+    }
+
+    .bot-thoughts-content {
+      font-family: 'Source Code Pro', monospace;
+      font-size: 12px;
+      color: #1de9b6;
+      line-height: 1.7;
+      min-height: 60px;
+      max-height: 120px;
       overflow-y: auto;
     }
 
+    .bot-thoughts-content::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    .bot-thoughts-content::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    .bot-thoughts-content::-webkit-scrollbar-thumb {
+      background: rgba(0, 230, 118, 0.3);
+      border-radius: 3px;
+    }
+
+    .bot-thoughts-content::-webkit-scrollbar-thumb:hover {
+      background: rgba(0, 230, 118, 0.6);
+    }
+
+    .thought-line {
+      opacity: 0;
+      animation: slideInThought 0.4s ease-out forwards;
+      padding: 4px 0;
+    }
+
+    @keyframes slideInThought {
+      from {
+        opacity: 0;
+        transform: translateX(-15px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    .bot-status {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      font-size: 11px;
+      margin-top: 10px;
+      padding-top: 10px;
+      border-top: 1px solid var(--border-color);
+    }
+
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #ff6b6b;
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    .status-dot.active {
+      background: var(--color-primary);
+      box-shadow: 0 0 8px var(--color-primary);
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+
+    /* Logs Section */
+    .logs-section {
+      background: rgba(15, 23, 41, 0.6);
+      backdrop-filter: blur(10px);
+      border-radius: 15px;
+      padding: 18px;
+      margin-bottom: 20px;
+      border: 2px solid var(--border-color);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+    }
+
+    .logs-title {
+      font-size: 12px;
+      color: var(--color-accent);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 12px;
+      font-weight: 600;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logs-content {
+      font-family: 'Source Code Pro', monospace;
+      font-size: 11px;
+      color: #0f0;
+      line-height: 1.6;
+      max-height: 180px;
+      overflow-y: auto;
+      background: rgba(0, 0, 0, 0.3);
+      padding: 12px;
+      border-radius: 8px;
+      border: 1px solid rgba(0, 230, 118, 0.2);
+    }
+
+    .logs-content::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    .logs-content::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    .logs-content::-webkit-scrollbar-thumb {
+      background: rgba(0, 230, 118, 0.3);
+      border-radius: 3px;
+    }
+
+    .log-entry {
+      opacity: 0;
+      animation: slideInLog 0.3s ease-out forwards;
+    }
+
+    @keyframes slideInLog {
+      from {
+        opacity: 0;
+        transform: translateX(-10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    .logs-hidden {
+      display: none;
+    }
+
+    .toggle-logs-btn {
+      width: 100%;
+      padding: 14px;
+      border: none;
+      border-radius: 10px;
+      font-weight: 600;
+      font-size: 13px;
+      cursor: pointer;
+      transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+      background: linear-gradient(135deg, rgba(26, 38, 68, 0.8) 0%, rgba(20, 30, 60, 0.9) 100%);
+      color: var(--color-text);
+      border: 2px solid var(--border-color);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 15px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .toggle-logs-btn:hover {
+      border-color: var(--color-accent);
+      box-shadow: 0 0 25px rgba(0, 188, 212, 0.4);
+    }
+
+    /* Bottom Navigation */
     .bottom-nav {
-      background-color: var(--bg-surface);
+      background: rgba(17, 26, 46, 0.8);
+      backdrop-filter: blur(10px);
       border-top: 1px solid var(--border-color);
       display: flex;
       justify-content: space-around;
       padding: 12px 0;
       position: sticky;
       bottom: 0;
+      z-index: 50;
+      box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.3);
     }
 
     .nav-btn {
-      color: var(--color-text);
-      font-weight: bold;
-      font-size: 14px;
+      color: var(--color-text-muted);
+      font-weight: 600;
+      font-size: 12px;
       background: none;
       border: none;
       cursor: pointer;
+      transition: all 0.3s ease;
+      padding: 8px 16px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      position: relative;
     }
 
+    .nav-btn::after {
+      content: '';
+      position: absolute;
+      bottom: -3px;
+      left: 50%;
+      width: 0;
+      height: 2px;
+      background: var(--color-primary);
+      transition: all 0.3s ease;
+      transform: translateX(-50%);
+    }
+
+    .nav-btn:hover::after, .nav-btn.active::after {
+      width: 80%;
+    }
+
+    .nav-btn:hover, .nav-btn.active {
+      color: var(--color-primary);
+      text-shadow: var(--glow-primary);
+    }
+
+    /* Modal Styles */
     .modal {
       position: fixed;
       top: 0; left: 0; right: 0; bottom: 0;
-      background: rgba(0, 0, 0, 0.9);
+      background: rgba(0, 0, 0, 0.85);
+      backdrop-filter: blur(8px);
       display: none;
       justify-content: center;
       align-items: center;
-      z-index: 99;
+      z-index: 200;
       opacity: 0;
       transition: opacity 0.3s ease;
     }
+
     .modal.show {
-        display: flex;
-        opacity: 1;
+      display: flex;
+      opacity: 1;
     }
 
     .modal-content {
-      background: var(--bg-card);
-      padding: 20px;
-      border-radius: 12px;
+      background: linear-gradient(135deg, rgba(26, 38, 68, 0.95) 0%, rgba(15, 23, 41, 0.95) 100%);
+      padding: 24px;
+      border-radius: 16px;
       width: 90%;
-      max-width: 400px;
+      max-width: 420px;
+      border: 2px solid var(--border-color);
+      box-shadow: 0 20px 60px rgba(0, 230, 118, 0.15);
+      animation: slideUpModal 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+      backdrop-filter: blur(10px);
+    }
+
+    @keyframes slideUpModal {
+      from {
+        opacity: 0;
+        transform: translateY(40px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
 
     .modal-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 15px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
     }
 
     .modal h3 {
       margin: 0;
       color: var(--color-primary);
-    }
-    
-    .form-group { margin-bottom: 15px; }
-    .form-group label {
-      font-size: 14px;
-      margin-bottom: 6px;
-      display: block;
-      color: var(--color-text-muted);
-    }
-    .form-group input, .form-group select {
-      width: 100%;
-      box-sizing: border-box;
-      padding: 12px;
-      background: var(--bg-input);
-      color: var(--color-text);
-      border: 1px solid var(--border-color);
-      border-radius: 6px;
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 18px;
+      letter-spacing: 0.5px;
     }
 
     .close-btn {
-      font-size: 24px;
+      font-size: 26px;
       cursor: pointer;
       color: var(--color-text-muted);
       background: none;
       border: none;
       line-height: 1;
+      transition: all 0.3s ease;
+      padding: 4px 8px;
+    }
+
+    .close-btn:hover {
+      color: var(--color-primary);
+      transform: rotate(90deg) scale(1.2);
+    }
+
+    /* Form Inputs */
+    .form-group {
+      margin-bottom: 16px;
+    }
+
+    .form-group label {
+      font-size: 12px;
+      margin-bottom: 8px;
+      display: block;
+      color: var(--color-accent);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      font-weight: 600;
+    }
+
+    .form-group input, .form-group select {
+      width: 100%;
+      padding: 12px 14px;
+      background: rgba(15, 23, 41, 0.8);
+      color: var(--color-text);
+      border: 2px solid var(--border-color);
+      border-radius: 8px;
+      font-family: 'Roboto', sans-serif;
+      font-size: 14px;
+      transition: all 0.3s ease;
+      backdrop-filter: blur(5px);
+    }
+
+    .form-group input::placeholder {
+      color: rgba(176, 176, 176, 0.5);
+    }
+
+    .form-group input:focus, .form-group select:focus {
+      outline: none;
+      border-color: var(--color-primary);
+      background: rgba(0, 230, 118, 0.05);
+      box-shadow: 0 0 20px rgba(0, 230, 118, 0.3);
+    }
+
+    .modal-button {
+      width: 100%;
+      padding: 13px;
+      border: 2px solid var(--color-primary);
+      border-radius: 10px;
+      background: linear-gradient(135deg, #1de9b6 0%, #00b853 100%);
+      color: #000;
+      font-weight: 700;
+      font-size: 13px;
+      cursor: pointer;
+      transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-top: 5px;
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+    }
+
+    .modal-button:hover {
+      box-shadow: 0 0 30px rgba(0, 230, 118, 0.5);
+      transform: translateY(-2px);
+    }
+
+    .modal-button:active {
+      transform: translateY(1px);
+    }
+
+    body.light-mode .modal-content {
+      background: linear-gradient(135deg, rgba(240, 244, 255, 0.95) 0%, rgba(230, 240, 255, 0.95) 100%);
+      border-color: #d0d8ff;
+    }
+
+    body.light-mode .form-group input, body.light-mode .form-group select {
+      background: rgba(230, 240, 255, 0.8);
+      border-color: #d0d8ff;
+      color: #1a1a1a;
+    }
+
+    body.light-mode .form-group input:focus, body.light-mode .form-group select:focus {
+      border-color: #0066cc;
+      background: rgba(0, 102, 204, 0.05);
+      box-shadow: 0 0 20px rgba(0, 102, 204, 0.3);
+    }
+
+    /* Status Badge */
+    .status-badge {
+      display: inline-block;
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      background: rgba(0, 230, 118, 0.1);
+      color: var(--color-primary);
+      border: 1px solid var(--color-primary);
+    }
+
+    @media (max-width: 360px) {
+      .header-title {
+        font-size: 26px;
+      }
+      .button-circular {
+        width: 60px;
+        height: 60px;
+      }
+      .modal-content {
+        padding: 18px;
+      }
     }
   </style>
 </head>
 <body>
 
-  <div class="container">
-    <div class="header-title">Smart-Trade-Pro</div>
-    <div class="logo-space"></div>
-    <div class="ea-name">PMT PRO EA</div>
-    <div class="ea-desc">An optimized EA for high-accuracy auto trading on MT5.</div>
-
-    <div class="action-buttons">
-      <button id="addKeyBtn" class="button button-secondary">Add Key</button>
-      <button id="infoBtn" class="button button-secondary">Info</button>
-      <button id="settingsBtn" class="button button-secondary">Settings</button>
-    </div>
-
-    <div class="start-stop">
-      <button id="startBtn" class="button button-start">START</button>
-      <button id="stopBtn" class="button button-stop">STOP</button>
-    </div>
-
-    <button id="toggleLogsBtn" class="button button-secondary" style="width: 100%; margin-bottom: 15px;">Show Logs</button>
-
-    <div id="logBox" class="card-logs"></div>
+  <div class="bg-slideshow"></div>
+  <div class="bg-image-container">
+    <div class="bg-image" style="background-image: url('data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 1200 800%22><defs><linearGradient id=%22g1%22 x1=%220%25%22 y1=%220%25%22 x2=%22100%25%22 y2=%22100%25%22><stop offset=%220%25%22 style=%22stop-color:%2300e676;stop-opacity:0.1%22/><stop offset=%22100%25%22 style=%22stop-color:%2300bcd4;stop-opacity:0.1%22/></linearGradient></defs><rect width=%221200%22 height=%22800%22 fill=%22url(%23g1)%22/><circle cx=%22200%22 cy=%22100%22 r=%22150%22 fill=%22none%22 stroke=%2200e676%22 stroke-width=%222%22 opacity=%220.2%22/><circle cx=%221000%22 cy=%22700%22 r=%22200%22 fill=%22none%22 stroke=%2200bcd4%22 stroke-width=%222%22 opacity=%220.2%22/></svg>')"></div>
+    <div class="bg-image" style="background-image: url('data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 1200 800%22><defs><linearGradient id=%22g2%22 x1=%22100%25%22 y1=%220%25%22 x2=%220%25%22 y2=%22100%25%22><stop offset=%220%25%22 style=%22stop-color:%2300bcd4;stop-opacity:0.1%22/><stop offset=%22100%25%22 style=%22stop-color:%2300e676;stop-opacity:0.1%22/></linearGradient></defs><rect width=%221200%22 height=%22800%22 fill=%22url(%23g2)%22/><polygon points=%22100,50 300,600 500,100%22 fill=%22none%22 stroke=%2300bcd4%22 stroke-width=%222%22 opacity=%220.15%22/></svg>')"></div>
+    <div class="bg-image" style="background-image: url('data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 1200 800%22><defs><linearGradient id=%22g3%22 x1=%220%25%22 y1=%22100%25%22 x2=%22100%25%22 y2=%220%25%22><stop offset=%220%25%22 style=%22stop-color:%2300e676;stop-opacity:0.1%22/><stop offset=%22100%25%22 style=%22stop-color:%23ff1744;stop-opacity:0.05%22/></linearGradient></defs><rect width=%221200%22 height=%22800%22 fill=%22url(%23g3)%22/><line x1=%22100%22 y1=%22100%22 x2=%221100%22 y2=%22700%22 stroke=%2200e676%22 stroke-width=%222%22 opacity=%220.1%22/></svg>')"></div>
   </div>
 
+  <!-- Theme Toggle -->
+  <div class="theme-toggle">
+    <button class="theme-btn active" id="darkModeBtn" title="Dark Mode">🌙</button>
+    <button class="theme-btn" id="lightModeBtn" title="Light Mode">☀️</button>
+  </div>
+
+  <div class="container">
+    <!-- Header -->
+    <div class="header-section">
+      <div class="header-subtitle">⚡ Premium Trading Suite v2.5</div>
+      <h1 class="header-title">Smart-Trade-Pro</h1>
+    </div>
+
+    <!-- Logo -->
+    <div class="logo-space">
+      <img src="logo.png" alt="EA Logo">
+    </div>
+
+    <!-- EA Info -->
+    <div class="ea-name">PMT PRO EA</div>
+    <div class="ea-desc">Next-Gen Algorithmic Trading | High-Accuracy Auto Trading on MT5</div>
+
+    <!-- Action Buttons (Circular) -->
+    <div class="action-buttons">
+      <button class="button-circular button-secondary-circular" id="addKeyBtn">
+        <span class="icon">🔑</span>
+        <span>Key</span>
+      </button>
+      <button class="button-circular button-secondary-circular" id="infoBtn">
+        <span class="icon">ℹ️</span>
+        <span>Info</span>
+      </button>
+      <button class="button-circular button-secondary-circular" id="settingsBtn">
+        <span class="icon">⚙️</span>
+        <span>Settings</span>
+      </button>
+    </div>
+
+    <!-- Start/Stop Buttons -->
+    <div class="start-stop">
+      <button class="button-circular button-start-circular" id="startBtn">
+        <span class="icon">▶️</span>
+        <span>START</span>
+      </button>
+      <button class="button-circular button-stop-circular" id="stopBtn">
+        <span class="icon">⏹️</span>
+        <span>STOP</span>
+      </button>
+    </div>
+
+    <!-- Bot Thoughts Section -->
+    <div class="bot-thoughts">
+      <div class="bot-thoughts-title">🤖 Bot Thoughts</div>
+      <div class="bot-thoughts-content" id="botThoughts"></div>
+      <div class="bot-status">
+        <span class="status-dot"></span>
+        <span id="botStatus">Initializing...</span>
+      </div>
+    </div>
+
+    <!-- Logs Toggle Button -->
+    <button class="toggle-logs-btn" id="toggleLogsBtn">
+      <span>📋 Show Logs</span>
+    </button>
+
+    <!-- Logs Section -->
+    <div class="logs-section logs-hidden" id="logsSection">
+      <div class="logs-title">
+        <span>📊 System Logs</span>
+      </div>
+      <div class="logs-content" id="logBox"></div>
+    </div>
+  </div>
+
+  <!-- Bottom Navigation -->
   <nav class="bottom-nav">
-    <button id="homeBtn" class="nav-btn">Home</button>
-    <button id="mt5NavBtn" class="nav-btn">MT5</button>
-    <button id="helpNavBtn" class="nav-btn">Help</button>
+    <button class="nav-btn active" id="homeBtn">🏠 Home</button>
+    <button class="nav-btn" id="mt5NavBtn">🔗 MT5</button>
+    <button class="nav-btn" id="helpNavBtn">❓ Help</button>
   </nav>
 
+  <!-- Modals -->
   <div class="modal" id="keyModal">
     <div class="modal-content">
-      <div class="modal-header"><h3>Add License Key</h3><button class="close-btn">✖</button></div>
+      <div class="modal-header"><h3>🔓 Activate License</h3><button class="close-btn">✖</button></div>
       <div class="form-group">
         <label for="keyInput">License Key</label>
-        <input type="text" id="keyInput" placeholder="Enter your license key">
+        <input type="text" id="keyInput" placeholder="Enter your premium license key">
       </div>
-      <button id="activateKeyBtn" class="button button-primary" style="width: 100%;">Activate</button>
+      <button id="activateKeyBtn" class="modal-button">Activate Now</button>
     </div>
   </div>
 
   <div class="modal" id="infoModal">
-     <div class="modal-content">
-      <div class="modal-header"><h3>EA & Mentor Info</h3><button class="close-btn">✖</button></div>
-      <p><strong>EA Name:</strong> PMT PRO EA</p>
+    <div class="modal-content">
+      <div class="modal-header"><h3>📋 EA Information</h3><button class="close-btn">✖</button></div>
+      <p><strong>EA Name:</strong> PMT PRO EA v2.5</p>
+      <p><strong>Status:</strong> <span class="status-badge">Active</span></p>
       <p><strong>Key Expiry:</strong> 31 Dec 2025</p>
       <p><strong>Email:</strong> liljee084@gmail.com</p>
       <p><strong>Contact:</strong> 083 479 7921</p>
     </div>
   </div>
-  
+
   <div class="modal" id="settingsModal">
     <div class="modal-content">
-      <div class="modal-header"><h3>Symbol Settings</h3><button class="close-btn">✖</button></div>
+      <div class="modal-header"><h3>⚙️ Trading Settings</h3><button class="close-btn">✖</button></div>
       <div id="symbolFields"></div>
-      <button id="addSymbolBtn" class="button button-secondary" style="width: 100%; margin-bottom: 10px;">+ Add Symbol</button>
-      <button id="saveSettingsBtn" class="button button-primary" style="width: 100%;">Save Settings</button>
+      <button id="addSymbolBtn" class="modal-button" style="background: linear-gradient(135deg, rgba(26, 38, 68, 0.9) 0%, rgba(20, 30, 60, 0.95) 100%); border-color: #2a3a5a; color: white;">+ Add Symbol</button>
+      <button id="saveSettingsBtn" class="modal-button">💾 Save Settings</button>
     </div>
   </div>
-  
+
   <div class="modal" id="helpModal">
     <div class="modal-content">
-      <div class="modal-header"><h3>How to Use</h3><button class="close-btn">✖</button></div>
-        <p>1. Add license key to activate</p>
-        <p>2. Set symbol, lot size & trades in Settings</p>
-        <p>3. Press START to begin live trading</p>
-        <p>4. Press STOP to end execution</p>
-        <p>5. Use MT5 tab to connect account</p>
+      <div class="modal-header"><h3>❓ Quick Start</h3><button class="close-btn">✖</button></div>
+      <p>📌 <strong>Step 1:</strong> Add license key to activate premium features</p>
+      <p>⚙️ <strong>Step 2:</strong> Set symbol, lot size & trades in Settings</p>
+      <p>▶️ <strong>Step 3:</strong> Press START to begin live trading</p>
+      <p>⏹️ <strong>Step 4:</strong> Press STOP to end execution</p>
+      <p>🔗 <strong>Step 5:</strong> Use MT5 tab to connect account</p>
     </div>
   </div>
-  
+
   <div class="modal" id="mt5Modal">
     <div class="modal-content">
-      <div class="modal-header"><h3>Connect to MT5</h3><button class="close-btn">✖</button></div>
+      <div class="modal-header"><h3>🔗 Connect MT5</h3><button class="close-btn">✖</button></div>
       <div class="form-group">
-          <label for="mt5Login">MT5 Login ID</label>
-          <input type="text" id="mt5Login" placeholder="12345678">
+        <label for="mt5Login">MT5 Login ID</label>
+        <input type="text" id="mt5Login" placeholder="12345678">
       </div>
       <div class="form-group">
-          <label for="mt5Server">MT5 Server</label>
-          <input type="text" id="mt5Server" placeholder="MetaQuotes-Demo">
+        <label for="mt5Server">MT5 Server</label>
+        <input type="text" id="mt5Server" placeholder="MetaQuotes-Demo">
       </div>
       <div class="form-group">
-          <label for="mt5Password">MT5 Password</label>
-          <input type="password" id="mt5Password" placeholder="••••••••••••">
+        <label for="mt5Password">MT5 Password</label>
+        <input type="password" id="mt5Password" placeholder="••••••••••••">
       </div>
-      <button id="connectMt5Btn" class="button button-primary" style="width: 100%;">Connect</button>
+      <button id="connectMt5Btn" class="modal-button">🔐 Connect</button>
     </div>
   </div>
 
   <script>
+    // Bot thoughts array
+    const botThoughts = [
+      "📊 Analyzing market trends...",
+      "💹 Scanning EURUSD for entry signals...",
+      "🔍 RSI at 65 - looking for pullback...",
+      "⚡ High volatility detected on GBPUSD",
+      "💰 Calculated risk/reward ratio: 1:2.5",
+      "📈 Momentum building on 4H chart",
+      "🎯 Entry condition met at 1.2450",
+      "⏳ Waiting for confirmation signal...",
+      "🛡️ Stop loss set at -25 pips",
+      "📍 TP1 target: 1.2480, TP2: 1.2510",
+      "🔔 Price action reversing at resistance",
+      "⏱️ Time decay on options accelerating",
+      "🌍 Market hours: London session active",
+      "💭 AI confidence score: 87%",
+      "🚀 Ready for next trade opportunity"
+    ];
+
+    let currentThoughtIndex = 0;
+
     document.addEventListener('DOMContentLoaded', () => {
       const logBox = document.getElementById('logBox');
+      const botThoughtsBox = document.getElementById('botThoughts');
+      const botStatus = document.getElementById('botStatus');
       const modals = document.querySelectorAll('.modal');
+      const darkModeBtn = document.getElementById('darkModeBtn');
+      const lightModeBtn = document.getElementById('lightModeBtn');
+      const logsSection = document.getElementById('logsSection');
+
+      // Theme Toggle
+      darkModeBtn.addEventListener('click', () => {
+        document.body.classList.remove('light-mode');
+        darkModeBtn.classList.add('active');
+        lightModeBtn.classList.remove('active');
+        localStorage.setItem('theme', 'dark');
+      });
+
+      lightModeBtn.addEventListener('click', () => {
+        document.body.classList.add('light-mode');
+        lightModeBtn.classList.add('active');
+        darkModeBtn.classList.remove('active');
+        localStorage.setItem('theme', 'light');
+      });
+
+      // Load saved theme
+      const savedTheme = localStorage.getItem('theme') || 'dark';
+      if (savedTheme === 'light') {
+        lightModeBtn.click();
+      }
+
+      // Bot thoughts updater
+      const updateBotThought = () => {
+        const thought = botThoughts[currentThoughtIndex];
+        const thoughtLine = document.createElement('div');
+        thoughtLine.className = 'thought-line';
+        thoughtLine.textContent = `> ${thought}`;
+        botThoughtsBox.appendChild(thoughtLine);
+        botThoughtsBox.scrollTop = botThoughtsBox.scrollHeight;
+
+        // Keep only last 8 thoughts
+        if (botThoughtsBox.children.length > 8) {
+          botThoughtsBox.removeChild(botThoughtsBox.firstChild);
+        }
+
+        currentThoughtIndex = (currentThoughtIndex + 1) % botThoughts.length;
+      };
+
+      // Update thoughts every 4 seconds
+      setInterval(updateBotThought, 4000);
+      updateBotThought(); // Initial thought
 
       const showModal = (modalId) => {
         const modal = document.getElementById(modalId);
@@ -311,12 +1068,18 @@
         modals.forEach(modal => modal.classList.remove('show'));
       };
 
-      const addLog = (message, type = 'info') => {
-        logBox.style.display = 'block';
+      const addLog = (message) => {
         const logEntry = document.createElement('div');
-        logEntry.textContent = `> ${message}`;
+        logEntry.className = 'log-entry';
+        const timestamp = new Date().toLocaleTimeString();
+        logEntry.textContent = `[${timestamp}] > ${message}`;
         logBox.appendChild(logEntry);
         logBox.scrollTop = logBox.scrollHeight;
+
+        // Keep only last 15 logs
+        if (logBox.children.length > 15) {
+          logBox.removeChild(logBox.firstChild);
+        }
       };
 
       const addSymbolField = () => {
@@ -324,24 +1087,15 @@
         const set = document.createElement("div");
         set.className = "form-group";
         set.innerHTML = `
-          <input type="text" placeholder="Symbol (e.g. GBPUSD)">
-          <input type="text" placeholder="Lot Size" style="margin-top: 8px;">
-          <input type="number" placeholder="Max Trades" style="margin-top: 8px;">
+          <input type="text" placeholder="Symbol (e.g. GBPUSD)" class="symbol-input">
+          <input type="text" placeholder="Lot Size" style="margin-top: 8px;" class="lot-input">
+          <input type="number" placeholder="Max Trades" style="margin-top: 8px;" class="trades-input">
           <hr style="border-color: #333; margin-top: 15px;">
         `;
         container.appendChild(set);
       };
 
-      const displayEaLogo = (imageUrl) => {
-        const logoContainer = document.querySelector('.logo-space');
-        if (!logoContainer) return;
-        logoContainer.innerHTML = ''; 
-        const logoImage = document.createElement('img');
-        logoImage.src = imageUrl;
-        logoImage.alt = 'EA Logo';
-        logoContainer.appendChild(logoImage);
-      };
-
+      // Button Event Listeners
       document.getElementById('addKeyBtn').addEventListener('click', () => showModal('keyModal'));
       document.getElementById('infoBtn').addEventListener('click', () => showModal('infoModal'));
       document.getElementById('settingsBtn').addEventListener('click', () => {
@@ -352,7 +1106,7 @@
       });
       document.getElementById('mt5NavBtn').addEventListener('click', () => showModal('mt5Modal'));
       document.getElementById('helpNavBtn').addEventListener('click', () => showModal('helpModal'));
-      
+
       modals.forEach(modal => {
         modal.addEventListener('click', (event) => {
           if (event.target === modal) hideAllModals();
@@ -360,38 +1114,67 @@
         modal.querySelector('.close-btn').addEventListener('click', hideAllModals);
       });
 
-      document.getElementById('startBtn').addEventListener('click', () => addLog('Bot Started...'));
-      document.getElementById('stopBtn').addEventListener('click', () => addLog('Bot Stopped.'));
+      document.getElementById('startBtn').addEventListener('click', () => {
+        addLog('✅ Bot Started - Ready for trading');
+        botStatus.textContent = 'Active - Monitoring Markets';
+        document.querySelector('.status-dot').classList.add('active');
+      });
+
+      document.getElementById('stopBtn').addEventListener('click', () => {
+        addLog('⏹️ Bot Stopped - Closing positions');
+        botStatus.textContent = 'Idle - Awaiting activation';
+        document.querySelector('.status-dot').classList.remove('active');
+      });
+
       document.getElementById('toggleLogsBtn').addEventListener('click', () => {
-        const isHidden = logBox.style.display === 'none' || logBox.style.display === '';
-        logBox.style.display = isHidden ? 'block' : 'none';
-        document.getElementById('toggleLogsBtn').textContent = isHidden ? 'Hide Logs' : 'Show Logs';
+        logsSection.classList.toggle('logs-hidden');
+        document.getElementById('toggleLogsBtn').textContent = 
+          logsSection.classList.contains('logs-hidden') ? '📋 Show Logs' : '📋 Hide Logs';
       });
 
       document.getElementById('activateKeyBtn').addEventListener('click', () => {
         const key = document.getElementById("keyInput").value;
         if (key.trim()) {
-          addLog('License Key Activated.');
+          addLog('🔓 License Key Activated Successfully');
           hideAllModals();
+          document.getElementById('keyInput').value = '';
         } else {
-          alert('Please enter a license key.');
+          alert('Please enter a valid license key.');
         }
       });
 
       document.getElementById('connectMt5Btn').addEventListener('click', () => {
-        addLog('MT5 Account Connected Successfully.');
+        addLog('🔗 MT5 Account Connected Successfully');
         hideAllModals();
       });
 
       document.getElementById('addSymbolBtn').addEventListener('click', addSymbolField);
+      document.getElementById('saveSettingsBtn').addEventListener('click', () => {
+        addLog('💾 Trading Settings Saved');
+        hideAllModals();
+      });
+
       document.getElementById('homeBtn').addEventListener('click', () => {
+        document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
+        document.getElementById('homeBtn').classList.add('active');
         window.scrollTo({ top: 0, behavior: 'smooth' });
       });
 
-      // ✅ Logo image file should exist in the same directory as this HTML file
-      displayEaLogo('logo.png');
-      addLog('Welcome to Smart-Trade-Pro. Ready to begin.');
+      document.getElementById('mt5NavBtn').addEventListener('click', () => {
+        document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
+        document.getElementById('mt5NavBtn').classList.add('active');
+      });
+
+      document.getElementById('helpNavBtn').addEventListener('click', () => {
+        document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
+        document.getElementById('helpNavBtn').classList.add('active');
+      });
+
+      // Initial logs
+      addLog('Welcome to Smart-Trade-Pro v2.5');
+      addLog('System initialized and ready');
+      addLog('🌙 Dark mode enabled - press ☀️ to switch');
     });
   </script>
 </body>
-            </html>
+  </html>
